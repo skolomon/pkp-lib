@@ -16,3 +16,6 @@ Bugs are scheduled against the milestones that a fix will be released in. For ex
 
 ## Community Code of Conduct
 This repository is one of PKP's community spaces and all activities here are guided by [PKP's Code of Conduct](https://pkp.sfu.ca/code-of-conduct/). Please review the Code and help us create a welcoming environment for all participants.
+
+## skolomon
+Use *dev* branch for making changes
