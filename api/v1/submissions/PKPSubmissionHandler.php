@@ -87,6 +87,7 @@ class PKPSubmissionHandler extends APIHandler
         'getContributors',
         'getContributor',
         'addContributor',
+        'addContributorRitNod',
         'deleteContributor',
         'editContributor',
         'saveContributorsOrder',
@@ -191,7 +192,7 @@ class PKPSubmissionHandler extends APIHandler
                 ],
                 [
                     'pattern' => $this->getEndpointPattern() . '/{submissionId:\d+}/publications/{publicationId:\d+}/contributors',
-                    'handler' => [$this, 'addContributor'],
+                    'handler' => [$this, 'addContributorRitNod'],
                     'roles' => [Role::ROLE_ID_MANAGER, Role::ROLE_ID_SUB_EDITOR, Role::ROLE_ID_ASSISTANT, Role::ROLE_ID_AUTHOR],
                 ],
                 [
