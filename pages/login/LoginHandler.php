@@ -190,12 +190,15 @@ class LoginHandler extends Handler
             Validation::logout();
         }
 
-        $source = $request->getUserVar('source');
-        if (isset($source) && !empty($source)) {
-            $request->redirectUrl($request->getProtocol() . '://' . $request->getServerHost() . $source, false);
-        } else {
-            $request->redirect(null, $request->getRequestedPage());
-        }
+        //skolomon
+        $request->redirect(null, "index"); //home page
+
+        // $source = $request->getUserVar('source');
+        // if (isset($source) && !empty($source)) {
+        //     $request->redirectUrl($request->getProtocol() . '://' . $request->getServerHost() . $source, false);
+        // } else {
+        //     $request->redirect(null, $request->getRequestedPage());
+        // }
     }
 
     /**

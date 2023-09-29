@@ -57,9 +57,18 @@
 				</dropdown>
 			{/if}
 			{if $currentContext}
-				<a class="app__contextTitle" href="{url page="index"}">
-					{$currentContext->getLocalizedData('name')|escape}
-				</a>
+			
+				{**skolomon*}
+				{if $displayPageHeaderLogo}
+					<a class="app__contextImage" href="{url page="index"}">
+						<img src="{$publicFilesDir}/{$displayPageHeaderLogo.uploadName|escape:"url"}" width="{$displayPageHeaderLogo.width|escape}" height="{$displayPageHeaderLogo.height|escape}" {if $displayPageHeaderLogo.altText != ''}alt="{$displayPageHeaderLogo.altText|escape}"{/if} />
+					</a>
+				{else}
+					<a class="app__contextTitle" href="{url page="index"}">
+						{$currentContext->getLocalizedData('name')|escape}
+					</a>
+				{/if}
+
 			{elseif $siteTitle}
 				<a class="app__contextTitle" href="{$baseUrl}">
 					{$siteTitle|escape}
@@ -90,7 +99,7 @@
 						<nav aria-label="{translate key="common.navigation.user"}">
 							{if $supportedLocales|@count > 1}
 								<div class="pkpDropdown__section">
-									<div class="app__userNav__changeLocale">Change Language</div>
+									<div class="app__userNav__changeLocale">Language / Мова</div>
 									<ul>
 										{foreach from=$supportedLocales item="locale" key="localeKey"}
 											<li>

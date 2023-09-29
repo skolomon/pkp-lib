@@ -56,6 +56,7 @@ use PKP\submission\PKPSubmission;
 use PKP\submission\reviewAssignment\ReviewAssignment;
 use PKP\userGroup\UserGroup;
 use Slim\Http\Request as SlimRequest;
+use PKP\session\SessionManager;
 
 class PKPSubmissionHandler extends APIHandler
 {
@@ -96,6 +97,7 @@ class PKPSubmissionHandler extends APIHandler
     public $requiresPublicationWriteAccess = [
         'editPublication',
         'addContributor',
+        'addContributorRitNod',
         'deleteContributor',
         'editContributor',
         'saveContributorsOrder',
@@ -1672,5 +1674,189 @@ class PKPSubmissionHandler extends APIHandler
         }
 
         return $errors;
+    }
+
+    //skolomon
+    public function addContributorRitNod($slimRequest, $response, $args)
+    {
+        $request = $this->getRequest();
+        $submission = $this->getAuthorizedContextObject(Application::ASSOC_TYPE_SUBMISSION);
+        $currentUser = $request->getUser();
+
+        $publication = Repo::publication()->get((int) $args['publicationId']);
+
+        if (!$publication) {
+            return $response->withStatus(404)->withJsonError('api.404.resourceNotFound');
+        }
+
+        if ($submission->getId() !== $publication->getData('submissionId')) {
+            return $response->withStatus(403)->withJsonError('api.publications.403.submissionsDidNotMatch');
+        }
+
+        // Publications can not be edited when they are published
+        if ($publication->getData('status') === PKPSubmission::STATUS_PUBLISHED) {
+            return $response->withStatus(403)->withJsonError('api.publication.403.cantEditPublished');
+        }
+
+        $params = $this->convertStringsToSchema(PKPSchemaService::SCHEMA_AUTHOR, $slimRequest->getParsedBody());
+        $params['publicationId'] = $publication->getId();
+
+        $submissionContext = $request->getContext();
+        if (!$submissionContext || $submissionContext->getId() !== $submission->getData('contextId')) {
+            $submissionContext = Services::get('context')->get($submission->getData('contextId'));
+        }
+
+        $sessionManager = SessionManager::getManager();
+        $session = $sessionManager->getUserSession();
+        $profileId = $session->getSessionVar('profileId');
+
+        //  LOOK UP IN RIT NOD
+
+        $curl = curl_init('https://opensi.nas.gov.ua/all/FindProfile');
+        // curl_setopt($curl, CURLOPT_URL, 'https://opensi.nas.gov.ua/all/FindProfile');
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+        // $headers = array(
+        //         "Accept: application/json",
+        //         "Content-Type: application/json",
+        //     );
+        // curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+        $body = [
+            'token' => $profileId,
+            'imya_ua' => $params['givenName']['uk'],
+            'imya_en' => $params['givenName']['en'],
+            'prizvische_ua' => $params['familyName']['uk'],
+            'prizvische_en' => $params['familyName']['en'],
+            'pobatkovi_ua' => $params['poBatkovi']['uk'],
+            'pobatkovi_en' => $params['poBatkovi']['en'],
+            'email' => $params['email'],
+            'ORCID' => $params['orcid'],
+            'full_name_inst' => $params['affiliation']['uk'],
+            'full_name_inst_en' => $params['affiliation']['en']
+        ];
+
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+
+        $responsePOST = curl_exec($curl);
+        curl_close($curl);
+
+        if (!$responsePOST) {
+            return $response->withStatus(403)->withJsonError('api.403.requsetError');
+        }
+
+        $userInfo = json_decode($responsePOST);
+        if ($userInfo->Key) {
+            $submission->sasz = $userInfo->Value;
+            return $response->withStatus(403)->withJsonError('api.403.coAuthorNotFound', ['error' => $userInfo->Value]);
+        }
+
+        // ~RIT NOD
+
+        $username = explode('@', $userInfo->email)[0];
+
+        $user = Repo::user()->getByUsername($username, true);
+
+        $newUser = true;
+        if (isset($user)) {
+            $newUser = false;
+            // $user->setAllData($params);
+        }
+
+        if ($newUser) {
+            $user = Repo::user()->newDataObject();
+
+            $user->setUsername($username);
+            $user->setDateRegistered(Core::getCurrentDate());
+            $user->setInlineHelp(1); // default new users to having inline help visible.
+        }
+
+        $user->setEmail($userInfo->email);
+
+        $user->setGivenName($userInfo->imya_ua, "uk");
+        $user->setGivenName($userInfo->imya_en, "en");
+        $user->setFamilyName($userInfo->prizvische_ua, "uk");
+        $user->setFamilyName($userInfo->prizvische_en, "en");
+        $user->setData("poBatkovi", $userInfo->pobatkovi_ua, "uk");
+        $user->setData("poBatkovi", $userInfo->pobatkovi_en, "en");
+        $user->setAffiliation($userInfo->full_name_inst, "uk");
+        $user->setAffiliation($userInfo->full_name_inst_en, "en");
+
+        $user->setOrcid($userInfo->ORCID);
+        $user->setCountry($params['country']);
+
+        $user->setPassword(Validation::encryptCredentials($username, $username . 'pass'));
+        $user->setMustChangePassword(0);
+
+        $userId = $user->getId();
+
+        if ($newUser) {
+            $userId = Repo::user()->add($user);
+
+            //Assign roles
+            $contextId = $request->getContext()->getId();
+
+            $defaultReaderGroup = Repo::userGroup()->getByRoleIds([Role::ROLE_ID_READER], $contextId, true)->first();
+            if ($defaultReaderGroup && !Repo::userGroup()->userInGroup($userId, $defaultReaderGroup->getId())) {
+                Repo::userGroup()->assignUserToGroup($userId, $defaultReaderGroup->getId());
+            }
+        } else {
+            Repo::user()->edit($user);
+        }
+
+        $submitAsUserGroup = Repo::userGroup()->getFirstSubmitAsAuthorUserGroup($submissionContext->getId());
+        if (!$submitAsUserGroup) {
+            return $response->withStatus(400)->withJson([
+                'userGroupId' => [__('submission.wizard.notAllowed.description')]
+            ]);
+        }
+        if (!Repo::userGroup()->userInGroup($userId, $submitAsUserGroup->getId())) {
+            Repo::userGroup()->assignUserToGroup(
+                $userId,
+                $submitAsUserGroup->getId()
+            );
+        }
+
+        $stageAssignmentDao = DAORegistry::getDAO('StageAssignmentDAO');
+
+        $stageAssignmentDao->build(
+            $submission->getId(),
+            $submitAsUserGroup->getId(),
+            $userId,
+            false,
+            // Authors can always edit metadata before submitting
+            true
+        );
+
+        $user = Repo::user()->get($userId);
+        // Create an author record from the submitter's user account
+        // if ($submitAsUserGroup->getRoleId() === Role::ROLE_ID_AUTHOR) {
+        $author = Repo::author()->newAuthorFromUser($user);
+        $author->setData('publicationId', $publication->getId());
+        $author->setUserGroupId($submitAsUserGroup->getId());
+        // if(!$newUser) {
+        //     Repo::author()->dao->update($author);
+        // } else {
+        $authorId = Repo::author()->add($author);
+        // }
+        // Repo::publication()->edit($publication, ['primaryContactId' => $authorId]);
+        // }
+
+        // $stageAssignment = $stageAssignmentDao->getByUserId($userId);
+
+        // if($stageAssignment) {
+        //     $stageAssignment->setCanChangeMetadata(true);
+        //     $stageAssignmentDao->updateObject($stageAssignment);
+
+        //     // $userGroup = Repo::userGroup()->get((int) $this->getData('userGroupId'));
+        //     $stageAssignment = $stageAssignmentDao->build($submission->getId(), $stageAssignment->getUserGroupId(), $userId, false, true);
+        // }
+
+        $resp = $response->withJson(
+            Repo::author()->getSchemaMap()->map($author),
+            200
+        );
+        return $resp;
     }
 }

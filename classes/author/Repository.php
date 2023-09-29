@@ -200,6 +200,7 @@ class Repository
         $author = Repo::author()->newDataObject();
         $author->setGivenName($user->getGivenName(null), null);
         $author->setFamilyName($user->getFamilyName(null), null);
+        $author->setData("poBatkovi", $user->getData("poBatkovi", null), null);
         $author->setAffiliation($user->getAffiliation(null), null);
         $author->setCountry($user->getCountry());
         $author->setEmail($user->getEmail());
@@ -233,6 +234,7 @@ class Repository
                     // copy all names with the old locale to the new locale
                     $author->setGivenName($author->getGivenName($oldLocale), $newLocale);
                     $author->setFamilyName($author->getFamilyName($oldLocale), $newLocale);
+                    $author->setData("poBatkovi", $author->getData("poBatkovi", $oldLocale), $newLocale);
                     $author->setPreferredPublicName($author->getPreferredPublicName($oldLocale), $newLocale);
                 } else {
                     // if the given name does not exist, but one of the other names do exist

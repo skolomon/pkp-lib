@@ -120,7 +120,7 @@ class ContributorsListPanel extends ListPanel
 
         $data = $form->getConfig();
         $data['primaryLocale'] = $this->submission->getData('locale');
-        $data['visibleLocales'] = [$this->submission->getData('locale')];
+        $data['visibleLocales'] = ['en', 'uk']; //[$this->submission->getData('locale')];
 
         return $data;
     }

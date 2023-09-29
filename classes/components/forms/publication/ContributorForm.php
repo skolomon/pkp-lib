@@ -26,6 +26,7 @@ use PKP\context\Context;
 use PKP\security\Role;
 use PKP\userGroup\UserGroup;
 use Sokil\IsoCodes\IsoCodesFactory;
+use PKP\components\forms\FieldHTML;
 
 define('FORM_CONTRIBUTOR', 'contributor');
 
@@ -69,39 +70,55 @@ class ContributorForm extends FormComponent
             return strcmp($a['label'], $b['label']);
         });
 
+        //skolomon
+        $this->addField(new FieldHTML('descriptionInfo', [
+            'description' => __('submit.author.findCoAuthors'),
+            'groupId' => 'default',
+            // 'showWhen' =>['email','']
+        ]));
+
+
         $this->addField(new FieldText('givenName', [
             'label' => __('user.givenName'),
             'isMultilingual' => true,
-            'isRequired' => true
+            // 'isRequired' => true
         ]))
             ->addField(new FieldText('familyName', [
                 'label' => __('user.familyName'),
                 'isMultilingual' => true,
             ]))
-            ->addField(new FieldText('preferredPublicName', [
-                'label' => __('user.preferredPublicName'),
-                'description' => __('user.preferredPublicName.description'),
+
+            //skolomon
+            ->addField(new FieldText('poBatkovi', [
+                'label' => __('user.poBatkovi'),
                 'isMultilingual' => true,
             ]))
+
+            // ->addField(new FieldText('preferredPublicName', [
+            //     'label' => __('user.preferredPublicName'),
+            //     'description' => __('user.preferredPublicName.description'),
+            //     'isMultilingual' => true,
+            // ]))
             ->addField(new FieldText('email', [
                 'label' => __('user.email'),
-                'isRequired' => true,
+                // 'isRequired' => true,
             ]))
             ->addField(new FieldSelect('country', [
                 'label' => __('common.country'),
                 'options' => $countries,
-                'isRequired' => true,
+                'value' => 'UA',
+                // 'isRequired' => true,
             ]))
-            ->addField(new FieldText('url', [
-                'label' => __('user.url'),
-            ]))
+            // ->addField(new FieldText('url', [
+            //     'label' => __('user.url'),
+            // ]))
             ->addField(new FieldText('orcid', [
                 'label' => __('user.orcid'),
             ]))
-            ->addField(new FieldRichTextarea('biography', [
-                'label' => __('user.biography'),
-                'isMultilingual' => true,
-            ]))
+            // ->addField(new FieldRichTextarea('biography', [
+            //     'label' => __('user.biography'),
+            //     'isMultilingual' => true,
+            // ]))
             ->addField(new FieldText('affiliation', [
                 'label' => __('user.affiliation'),
                 'isMultilingual' => true,

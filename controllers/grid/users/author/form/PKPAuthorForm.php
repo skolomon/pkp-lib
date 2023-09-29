@@ -129,6 +129,7 @@ class PKPAuthorForm extends Form
                 'authorId' => $author->getId(),
                 'givenName' => $author->getGivenName(null),
                 'familyName' => $author->getFamilyName(null),
+                'poBatkovi' => $author->getData("poBatkovi", null),
                 'preferredPublicName' => $author->getPreferredPublicName(null),
                 'affiliation' => $author->getAffiliation(null),
                 'country' => $author->getCountry(),
@@ -184,6 +185,7 @@ class PKPAuthorForm extends Form
             'authorId',
             'givenName',
             'familyName',
+            'poBatkovi',
             'preferredPublicName',
             'affiliation',
             'country',
@@ -223,6 +225,7 @@ class PKPAuthorForm extends Form
 
         $author->setGivenName(array_map('trim', $this->getData('givenName')), null);
         $author->setFamilyName($this->getData('familyName'), null);
+        $author->setData("poBatkovi", $this->getData('poBatkovi'), null);
         $author->setPreferredPublicName($this->getData('preferredPublicName'), null);
         $author->setAffiliation($this->getData('affiliation'), null); // localized
         $author->setCountry($this->getData('country'));

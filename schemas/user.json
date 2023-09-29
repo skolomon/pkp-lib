@@ -119,6 +119,13 @@
 			"type": "string",
 			"multilingual": true
 		},
+		"poBatkovi": {
+			"type": "string",
+			"multilingual": true,
+			"validation": [
+				"nullable"
+			]
+		},
 		"gossip": {
 			"type": "string",
 			"apiSummary": true,

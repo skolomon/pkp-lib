@@ -161,6 +161,7 @@ class UserDetailsForm extends UserForm
                 'username' => $user->getUsername(),
                 'givenName' => $user->getGivenName(null), // Localized
                 'familyName' => $user->getFamilyName(null), // Localized
+                'poBatkovi' => $user->getData("poBatkovi", null), // Localized
                 'preferredPublicName' => $user->getPreferredPublicName(null), // Localized
                 'signature' => $user->getSignature(null), // Localized
                 'affiliation' => $user->getAffiliation(null), // Localized
@@ -184,6 +185,7 @@ class UserDetailsForm extends UserForm
             $data = [
                 'givenName' => $author->getGivenName(null), // Localized
                 'familyName' => $author->getFamilyName(null), // Localized
+                'poBatkovi' => $author->getData("poBatkovi", null), // Localized
                 'affiliation' => $author->getAffiliation(null), // Localized
                 'preferredPublicName' => $author->getPreferredPublicName(null), // Localized
                 'email' => $author->getEmail(),
@@ -257,6 +259,7 @@ class UserDetailsForm extends UserForm
             'password2',
             'givenName',
             'familyName',
+            'poBatkovi',
             'preferredPublicName',
             'signature',
             'affiliation',

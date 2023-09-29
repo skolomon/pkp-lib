@@ -34,6 +34,11 @@
 			{fbvElement type="text" label="user.givenName" multilingual="true" required="true" id="givenName" value=$givenName maxlength="255" inline=true size=$fbvStyles.size.MEDIUM}
 			{fbvElement type="text" label="user.familyName" multilingual="true" id="familyName" value=$familyName maxlength="255" inline=true size=$fbvStyles.size.MEDIUM}
 		{/fbvFormSection}
+		
+		<div style="margin-top:-1rem">
+			{fbvElement type="text" label="user.poBatkovi" multilingual="true" id="poBatkovi" value=$poBatkovi maxlength="255" inline=true size=$fbvStyles.size.LARGE}
+		</div>
+
 	{/fbvFormArea}
 
 	{fbvFormSection for="preferredPublicName" description="user.preferredPublicName.description"}

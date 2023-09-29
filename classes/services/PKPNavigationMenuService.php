@@ -183,6 +183,7 @@ class PKPNavigationMenuService
             case NavigationMenuItem::NMI_TYPE_USER_LOGOUT:
             case NavigationMenuItem::NMI_TYPE_USER_PROFILE:
             case NavigationMenuItem::NMI_TYPE_USER_DASHBOARD:
+            case NavigationMenuItem::NMI_TYPE_SUBMISSIONS:
                 $navigationMenuItem->setIsDisplayed($isUserLoggedIn);
                 break;
             case NavigationMenuItem::NMI_TYPE_ADMINISTRATION:
@@ -193,6 +194,11 @@ class PKPNavigationMenuService
                 break;
             case NavigationMenuItem::NMI_TYPE_PRIVACY:
                 $navigationMenuItem->setIsDisplayed($context && $context->getLocalizedData('privacyStatement'));
+                break;
+            case NavigationMenuItem::NMI_TYPE_REMOTE_URL:
+                if (strpos($navigationMenuItem->getLocalizedRemoteUrl(), "nas.gov.ua")) {
+                    $navigationMenuItem->setIsDisplayed(!$isUserLoggedIn);
+                }
                 break;
         }
 

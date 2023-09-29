@@ -64,6 +64,13 @@
 				"nullable"
 			]
 		},
+		"poBatkovi": {
+			"type": "string",
+			"multilingual": true,
+			"validation": [
+				"nullable"
+			]
+		},
 		"id": {
 			"type": "integer",
 			"apiSummary": true
