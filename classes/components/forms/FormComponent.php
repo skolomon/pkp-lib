@@ -283,7 +283,7 @@ class FormComponent
         }
 
         if (!$this->pages) {
-            $this->addPage(['id' => 'default', 'submitButton' => ['label' => __('common.save')]]);
+            $this->addPage(['id' => 'default', 'submitButton' => ['label' => __($this->id == 'contributor' ? 'submit.author.buttonSearch' : 'common.save')]]);
             $this->groups = array_map(function ($group) {
                 $group['pageId'] = 'default';
                 return $group;
