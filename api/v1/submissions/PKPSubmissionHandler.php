@@ -1749,7 +1749,6 @@ class PKPSubmissionHandler extends APIHandler
 
         $userInfo = json_decode($responsePOST);
         if ($userInfo->Key) {
-            $submission->sasz = $userInfo->Value;
             return $response->withStatus(403)->withJsonError('api.403.coAuthorNotFound', ['error' => $userInfo->Value]);
         }
 
