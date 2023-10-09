@@ -62,6 +62,8 @@ class Identity extends \PKP\core\DataObject
             $locale = $this->getDefaultLocale();
             $givenName = $this->getGivenName($locale);
         }
+        //skolomon
+        $patronym = $preferred && $locale=='uk' ? $this->getData("poBatkovi", $locale) : '';
         $familyName = $this->getFamilyName($locale);
         if ($familyFirst) {
             return ($familyName != '' ? "{$familyName}, " : '') . $givenName;
