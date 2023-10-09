@@ -2581,7 +2581,7 @@ msgid "publication.status.scheduled"
 msgstr "Заплановано"
 
 msgid "publication.status.unpublished"
-msgstr "Знято з публікації"
+msgstr "Неопубліковано"
 
 msgid "publication.titleAbstract"
 msgstr "Назва і Анотація"
