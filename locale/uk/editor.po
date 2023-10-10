@@ -368,7 +368,7 @@ msgid "editor.discussion.errorNotStageParticipant"
 msgstr "Обраного учасника не призначено на цю стадію."
 
 msgid "editor.submission.schedulePublication"
-msgstr "Запланувати для публікації"
+msgstr "Запланувати публікацію"
 
 msgid "editor.submission.selectCopyedingFiles"
 msgstr "Файли для літературного редагування"

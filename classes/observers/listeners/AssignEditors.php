@@ -49,6 +49,8 @@ class AssignEditors
         $subEditorsDao = DAORegistry::getDAO('SubEditorsDAO');
         $assignedUserIds = $subEditorsDao->assignEditors($event->submission, $event->context);
 
+        return; //skolomon: we  always assign editor when submitted
+
         if ($assignedUserIds->count()) {
             return;
         }
