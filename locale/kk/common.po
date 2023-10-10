@@ -2269,6 +2269,3 @@ msgstr "Автор өңдеген."
 
 #~ msgid "common.fromWithValue"
 #~ msgstr "Кімнен: {$value}"
-
-msgid "form.dropzone.dictDefaultMessage"
-msgstr "Перетягніть файли сюди, щоб завантажити"
