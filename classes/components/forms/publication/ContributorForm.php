@@ -71,7 +71,7 @@ class ContributorForm extends FormComponent
         });
 
         //skolomon
-        $this->addField(new FieldHTML('descriptionInfo', [
+        $this->addField(new FieldHTML('descriptionRitNod', [
             'description' => __('submit.author.findCoAuthors'),
             'groupId' => 'default',
             // 'showWhen' =>['email','']

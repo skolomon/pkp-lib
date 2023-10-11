@@ -1677,12 +1677,12 @@ class PKPSubmissionHandler extends APIHandler
         return $errors;
     }
 
-    //skolomon
+    //skolomon TODO: refactor!
     public function addContributorRitNod($slimRequest, $response, $args)
     {
         $request = $this->getRequest();
         $submission = $this->getAuthorizedContextObject(Application::ASSOC_TYPE_SUBMISSION);
-        $currentUser = $request->getUser();
+        // $currentUser = $request->getUser();
 
         $publication = Repo::publication()->get((int) $args['publicationId']);
 
