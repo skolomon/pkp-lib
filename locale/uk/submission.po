@@ -411,7 +411,7 @@ msgid "metadata.property.displayName.abstract"
 msgstr "Анотація"
 
 msgid "common.queue.long.submissionsUnassigned"
-msgstr "Призначення відкликано"
+msgstr "Не призначені"
 
 msgid "common.queue.long.myAssigned"
 msgstr "Призначено мені"
@@ -1231,7 +1231,7 @@ msgid "submission.status.submission"
 msgstr "Очікується рішення редактора"
 
 msgid "submission.status.unassigned"
-msgstr "Призначення відкликано"
+msgstr "Не призначено"
 
 msgid "submission.status.declined"
 msgstr "Відхилено"

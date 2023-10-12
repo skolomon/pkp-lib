@@ -287,10 +287,15 @@ msgstr ""
 "{$senderName}"
 
 msgid "emails.submissionSavedForLater.subject"
-msgstr ""
+msgstr "Завершіть підготовку подання в {$contextName}"
 
 msgid "emails.submissionSavedForLater.body"
 msgstr ""
+"<p>Шановний(-а) {$recipientName}!</p>"
+"<p>Деталі вашого подання збережені в нашій системі, але його ще не надіслано на розгляд. Ви можете будь-коли повернутися, щоб завершити подання, перейшовши за посиланням нижче.</p>"
+"<p><a href=\"{$submissionWizardUrl}\">{$authorsShort} — {$submissionTitle}</a></p>"
+"<hr>"
+"<p>Це автоматичний електронний лист від <a href=\"{$contextUrl}\">{$contextName}</a>.</p>"
 
 msgid "emails.submissionNeedsEditor.subject"
 msgstr ""
