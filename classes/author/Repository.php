@@ -201,6 +201,7 @@ class Repository
         $author->setGivenName($user->getGivenName(null), null);
         $author->setFamilyName($user->getFamilyName(null), null);
         $author->setData("poBatkovi", $user->getData("poBatkovi", null), null);
+        $author->setPreferredPublicName($user->getPreferredPublicName(null), null); //skolomon
         $author->setAffiliation($user->getAffiliation(null), null);
         $author->setCountry($user->getCountry());
         $author->setEmail($user->getEmail());

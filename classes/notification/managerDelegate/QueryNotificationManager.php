@@ -26,6 +26,7 @@ use PKP\notification\NotificationManagerDelegate;
 use PKP\notification\PKPNotification;
 use PKP\query\Query;
 use PKP\query\QueryDAO;
+use PKP\security\Role;
 
 class QueryNotificationManager extends NotificationManagerDelegate
 {
@@ -53,15 +54,23 @@ class QueryNotificationManager extends NotificationManagerDelegate
         assert($notification->getAssocType() == Application::ASSOC_TYPE_QUERY);
         $queryDao = DAORegistry::getDAO('QueryDAO'); /** @var QueryDAO $queryDao */
         $query = $queryDao->getById($notification->getAssocId());
-
+        $contextId = $request->getContext()->getId();
         $headNote = $query->getHeadNote();
         assert(isset($headNote));
+        //skolomon: get moderator role name
+        $defaultModerGroup = Repo::userGroup()->getByRoleIds([Role::ROLE_ID_SUB_EDITOR], $contextId, true)->first();
+        $moderRoleName = $defaultModerGroup ? $defaultModerGroup->getLocalizedName() : __('default.groups.name.sectionEditor');
 
         switch ($notification->getType()) {
             case PKPNotification::NOTIFICATION_TYPE_NEW_QUERY:
                 $user = $headNote->getUser();
+                //skolomon: hide moderator name, use role name instead
+                $dispname = $user->getFullName();
+                if ($user && $user->hasRole([Role::ROLE_ID_SUB_EDITOR], $contextId)) {
+                    $dispname = $moderRoleName;
+                }
                 return __('submission.query.new', [
-                    'creatorName' => $user->getFullName(),
+                    'creatorName' => $dispname,
                     'noteContents' => substr(PKPString::html2text($headNote->getContents()), 0, 200),
                     'noteTitle' => substr($headNote->getTitle(), 0, 200),
                 ]);
@@ -69,8 +78,13 @@ class QueryNotificationManager extends NotificationManagerDelegate
                 $notes = $query->getReplies(null, NoteDAO::NOTE_ORDER_ID, \PKP\db\DAO::SORT_DIRECTION_DESC);
                 $latestNote = $notes->first();
                 $user = $latestNote->getUser();
+                //skolomon: hide moderator name, use role name instead
+                $dispname = $user->getFullName();
+                if ($user && $user->hasRole([Role::ROLE_ID_SUB_EDITOR], $contextId)) {
+                    $dispname = $moderRoleName;
+                }
                 return __('submission.query.activity', [
-                    'responderName' => $user->getFullName(),
+                    'responderName' => $dispname,
                     'noteContents' => substr(PKPString::html2text($latestNote->getContents()), 0, 200),
                     'noteTitle' => substr($headNote->getTitle(), 0, 200),
                 ]);

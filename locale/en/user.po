@@ -234,7 +234,7 @@ msgstr "Preferred Public Name"
 msgid "user.preferredPublicName.description"
 msgstr ""
 "Please provide the full name as the author should be identified on the "
-"published work. Example: Dr. Alan P. Mwandenga"
+"published work.<br>Example: Dr. Alan P. Mwandenga"
 
 msgid "user.profile.changePasswordInstructions"
 msgstr ""

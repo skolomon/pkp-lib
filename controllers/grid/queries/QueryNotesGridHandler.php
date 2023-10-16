@@ -119,7 +119,7 @@ class QueryNotesGridHandler extends GridHandler
         parent::initialize($request, $args);
         $this->setTitle('submission.query.messages');
 
-        $cellProvider = new QueryNotesGridCellProvider($this->getSubmission());
+        $cellProvider = new QueryNotesGridCellProvider($request->getContext()->getId(), $this->getSubmission());
 
         // Columns
         $this->addColumn(

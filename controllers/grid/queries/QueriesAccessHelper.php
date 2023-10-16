@@ -180,7 +180,7 @@ class QueriesAccessHelper
      */
     public function getCanListAll($stageId)
     {
-        return $this->hasStageRole($stageId, [Role::ROLE_ID_MANAGER, Role::ROLE_ID_SITE_ADMIN]);
+    return $this->hasStageRole($stageId, [Role::ROLE_ID_MANAGER, Role::ROLE_ID_SITE_ADMIN, Role::ROLE_ID_SUB_EDITOR/*skolomon: allow for moderator*/]);
     }
 
     /**

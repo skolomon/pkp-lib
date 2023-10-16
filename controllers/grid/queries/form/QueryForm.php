@@ -83,8 +83,22 @@ class QueryForm extends Form
             $queryDao->insertObject($query);
             $queryDao->resequence($assocType, $assocId);
 
+            //skolomon: add all participants to the query
+            $stageAssignmentDao = DAORegistry::getDAO('StageAssignmentDAO'); /** @var StageAssignmentDAO $stageAssignmentDao */
+            $authorAssignments = $stageAssignmentDao->getBySubmissionAndRoleIds($query->getAssocId(), [Role::ROLE_ID_AUTHOR, Role::ROLE_ID_SUB_EDITOR]);
+            $authorIds = [];
+            while ($assignment = $authorAssignments->next()) {
+                $authorIds[] = $assignment->getUserId();
+            }
+            $authorIds[] = $request->getUser()->getId();
+            $authorIds = array_unique($authorIds);
+            foreach ($authorIds as $authorId) {
+                $queryDao->insertParticipant($query->getId(), $authorId);
+            }
+
             // Add the current user as a participant by default.
-            $queryDao->insertParticipant($query->getId(), $request->getUser()->getId());
+            // skolomon: already added above!
+            // $queryDao->insertParticipant($query->getId(), $request->getUser()->getId());
 
             // Create a head note
             $noteDao = DAORegistry::getDAO('NoteDAO'); /** @var NoteDAO $noteDao */

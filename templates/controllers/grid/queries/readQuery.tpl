@@ -21,13 +21,16 @@
 </script>
 
 <div id="readQueryContainer" class="pkp_controllers_query">
-    <h4>
-        {translate key="editor.submission.stageParticipants"}
-		{if $editAction}
-			{include file="linkAction/linkAction.tpl" action=$editAction contextId="editQuery"}
-		{/if}
-    </h4>
-    <ul id="participantsListPlaceholder" class="participants"></ul>
+	{** skolomon: hide participants *}
+	<div class="pkp_helpers_display_none">
+		<h4>
+			{translate key="editor.submission.stageParticipants"}
+			{if $editAction}
+				{include file="linkAction/linkAction.tpl" action=$editAction contextId="editQuery"}
+			{/if}
+		</h4>
+		<ul id="participantsListPlaceholder" class="participants"></ul>
+	</div>
 
 	{capture assign=queryNotesGridUrl}{url router=\PKP\core\PKPApplication::ROUTE_COMPONENT component=$queryNotesGridHandlerName op="fetchGrid" params=$requestArgs queryId=$query->getId() escape=false}{/capture}
 	{load_url_in_div id="queryNotesGrid" url=$queryNotesGridUrl}

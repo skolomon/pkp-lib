@@ -30,9 +30,9 @@
 
 		{include file="controllers/notification/inPlaceNotification.tpl" notificationId="queryFormNotification"}
 
-		{fbvFormSection list=true title="editor.submission.stageParticipants"}
+		{fbvFormSection list=true title="editor.submission.stageParticipants" class="pkp_helpers_display_none"} {**skolomon: hide this block*}
 			{foreach from=$allParticipants item="participant" key="id"}
-				{fbvElement type="checkbox" id="users[]" value=$id checked=in_array($id, $assignedParticipants) label=$participant|escape translate=false}
+				{fbvElement type="checkbox" id="users[]" value=$id checked=in_array($id, $assignedParticipants) label="participant"}  {* skolomon: hide names  $participant|escape translate=false} *}
 			{/foreach}
 		{/fbvFormSection}
 

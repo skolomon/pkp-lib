@@ -26,6 +26,8 @@ use PKP\linkAction\LinkAction;
 use PKP\linkAction\request\AjaxAction;
 use PKP\note\NoteDAO;
 use PKP\query\Query;
+use PKP\security\Role;
+use APP\facades\Repo;
 
 class QueriesGridCellProvider extends DataObjectGridCellProvider
 {
@@ -76,17 +78,30 @@ class QueriesGridCellProvider extends DataObjectGridCellProvider
         $notes = $element->getReplies(null, NoteDAO::NOTE_ORDER_ID, \PKP\db\DAO::SORT_DIRECTION_DESC);
         $context = Application::get()->getRequest()->getContext();
         $datetimeFormatShort = PKPString::convertStrftimeFormat($context->getLocalizedDateTimeFormatShort());
+        //skolomon: get role name
+        $defaultModerGroup = Repo::userGroup()->getByRoleIds([Role::ROLE_ID_SUB_EDITOR], $context->getId(), true)->first();
+        $moderRoleName = $defaultModerGroup ? $defaultModerGroup->getLocalizedName(): __('default.groups.name.sectionEditor');
 
         switch ($columnId) {
             case 'replies':
                 return ['label' => max(0, $notes->count() - 1)];
             case 'from':
-                return ['label' => ($user ? $user->getUsername() : '&mdash;') . '<br />' . ($headNote ? date($datetimeFormatShort, strtotime($headNote->getDateCreated())) : '')];
+                //skolomon: hide moderator name, use role name instead
+                $dispname = $user ? $user->getUsername() : '&mdash;';
+                if ($user && $user->hasRole([Role::ROLE_ID_SUB_EDITOR], $context->getId())) {
+                    $dispname = $moderRoleName;
+                }
+                return ['label' => $dispname . '<br />' . ($headNote ? date($datetimeFormatShort, strtotime($headNote->getDateCreated())) : '')];
             case 'lastReply':
                 $latestReply = $notes->first();
                 if ($latestReply && $latestReply->getId() != $headNote->getId()) {
                     $repliedUser = $latestReply->getUser();
-                    return ['label' => ($repliedUser ? $repliedUser->getUsername() : '&mdash;') . '<br />' . date($datetimeFormatShort, strtotime($latestReply->getDateCreated()))];
+                    //skolomon: hide moderator name, use role name instead
+                    $dispname = $repliedUser ? $repliedUser->getUsername() : '&mdash;';
+                    if ($repliedUser && $repliedUser->hasRole([Role::ROLE_ID_SUB_EDITOR], $context->getId())) {
+                        $dispname = $moderRoleName;
+                    }
+                    return ['label' => $dispname . '<br />' . date($datetimeFormatShort, strtotime($latestReply->getDateCreated()))];
                 } else {
                     return ['label' => '-'];
                 }

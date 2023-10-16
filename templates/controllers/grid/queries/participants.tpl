@@ -9,5 +9,5 @@
  *
  *}
 {foreach from=$participants item=user}
-	<li>{$user->getFullName()|escape} ({$user->getUsername()|escape})</li>
+	<li> {* skolomon: hide participant names {$user->getFullName()|escape} ({$user->getUsername()|escape}) *} </li>
 {/foreach}

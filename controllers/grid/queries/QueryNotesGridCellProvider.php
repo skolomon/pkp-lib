@@ -26,21 +26,26 @@ use PKP\controllers\grid\GridHandler;
 use PKP\core\PKPString;
 use PKP\note\Note;
 use PKP\submissionFile\SubmissionFile;
+use PKP\security\Role;
 
 class QueryNotesGridCellProvider extends DataObjectGridCellProvider
 {
     /** @var Submission */
     public $_submission;
 
+    //skolomon
+    public $_contextId;
+
     /**
      * Constructor
      *
      * @param Submission $submission
      */
-    public function __construct($submission)
+    public function __construct($contextId, $submission)
     {
         parent::__construct();
         $this->_submission = $submission;
+        $this->_contextId = $contextId;
     }
 
     //
@@ -64,9 +69,17 @@ class QueryNotesGridCellProvider extends DataObjectGridCellProvider
         $user = $element->getUser();
         $datetimeFormatShort = PKPString::convertStrftimeFormat(Application::get()->getRequest()->getContext()->getLocalizedDateTimeFormatShort());
 
+        //skolomon: hide moderator name, use role name instead
+        $defaultModerGroup = Repo::userGroup()->getByRoleIds([Role::ROLE_ID_SUB_EDITOR], $this->_contextId, true)->first();
+        $moderRoleName = $defaultModerGroup ? $defaultModerGroup->getLocalizedName() : __('default.groups.name.sectionEditor');
+        $dispname = $user ? $user->getUsername() : '&mdash;';
+        if ($user && $user->hasRole([Role::ROLE_ID_SUB_EDITOR], $this->_contextId)) {
+            $dispname = $moderRoleName;
+        }
+
         switch ($columnId) {
             case 'from':
-                return ['label' => ($user ? $user->getUsername() : '&mdash;') . '<br />' . date($datetimeFormatShort, strtotime($element->getDateCreated()))];
+                return ['label' => $dispname . '<br />' . date($datetimeFormatShort, strtotime($element->getDateCreated()))];
         }
 
         return parent::getTemplateVarsFromRowColumn($row, $column);

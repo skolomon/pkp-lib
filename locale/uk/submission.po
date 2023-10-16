@@ -2344,7 +2344,7 @@ msgid "grid.action.openNoteForm"
 msgstr "Додайте нову відповідь до обговорення"
 
 msgid "submission.query.activity"
-msgstr "{$responderName} відповів на{$noteTitle}: {$noteContents}"
+msgstr "{$responderName} відповів на {$noteTitle}: {$noteContents}"
 
 msgid "submission.query.new"
 msgstr "{$creatorName} розпочав обговорення: {$noteTitle}: {$noteContents}"
