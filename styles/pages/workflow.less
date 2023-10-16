@@ -89,10 +89,21 @@
 		float: left;
 		width: 75%;
 	}
+	@media (max-width: 968px) { //skolomon
+		.pkp_workflow_sidebar {
+			width: 100%;
+		}
+
+		.pkp_workflow_content {
+			width: 100%;
+		}
+	}
 }
 
 .pkp_workflow_decisions {
 	margin-bottom: 1rem;
+	max-width: 18rem;
+    margin-left: auto;
 
 	> * + * {
 		margin-top: 1rem;
@@ -111,6 +122,8 @@
 	.pkp_button {
 		width: 100%;
 		text-align: center;
+		line-height: 1.25rem;
+		padding-block: 0.4rem;
 	}
 }
 
