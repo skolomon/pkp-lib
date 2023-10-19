@@ -1466,7 +1466,7 @@ msgid "navigation.browseByTitle"
 msgstr "За назвою"
 
 msgid "navigation.dashboard"
-msgstr "Панель інструментів"
+msgstr "Панель керування"
 
 msgid "navigation.data"
 msgstr "Дані"

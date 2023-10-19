@@ -41,3 +41,6 @@ msgstr "<b>Edit your profile in DIT ROA</b><br>Follow "
 "<a href='https://profile-user.nas.gov.ua' target='_blank'>the link</a> "
 "to edit your profile in DIT ROA.<br>"
 "After editing, re-login to Arxiv Academy.<br><br>"
+
+msgid "user.welcome"
+msgstr "Welcome "

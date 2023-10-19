@@ -183,7 +183,14 @@ class Validation
         }
 
         $request = Application::get()->getRequest();
-        $request->redirect(null, 'login', null, null, $args);
+
+        //skolomon: try to re-login via RIT NOD
+        $session = $request->getSession();
+        $lang = $session->getSessionVar('currentLocale');
+        $session->setSessionVar('source', $_SERVER['REQUEST_URI']);
+        $request->redirectUrl("https://opensi.nas.gov.ua/?go_to=arxiv&lang=" . ($lang == 'en' ? 'en' : 'ua'));
+
+        // $request->redirect(null, 'login', null, null, $args);
     }
 
     /**

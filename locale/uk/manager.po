@@ -2488,7 +2488,7 @@ msgid "manager.navigationMenus.register.description"
 msgstr "Покликання на сторінку реєстрації користувача."
 
 msgid "manager.navigationMenus.dashboard.description"
-msgstr "Покликання на панель інструментів редакції."
+msgstr "Покликання на редакційну панель керування."
 
 msgid "manager.navigationMenus.profile.description"
 msgstr "Покликання на сторінку профілю користувача."
