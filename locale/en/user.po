@@ -516,3 +516,6 @@ msgstr "Enter new password to update login password."
 msgid "user.login.resetPassword.passwordUpdated"
 msgstr ""
 "Password has been updated successfully. Please login with updated password."
+
+msgid "user.authorization.userRequired"
+msgstr "You need to login to the server to perform this action."
