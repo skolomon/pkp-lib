@@ -65,7 +65,7 @@ class Identity extends \PKP\core\DataObject
             if (empty($locale)) {
                 continue;
             }
-            $value = &$this->getData($key, $locale);
+            $value = & $this->getData($key, $locale);
             if (!empty($value)) {
                 return $value;
             }
@@ -73,7 +73,7 @@ class Identity extends \PKP\core\DataObject
         }
 
         // Fallback: Get the first available piece of data.
-        $data = &$this->getData($key, null);
+        $data = & $this->getData($key, null);
         foreach ((array) $data as $dataValue) {
             if (!empty($dataValue)) {
                 return $dataValue;
