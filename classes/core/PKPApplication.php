@@ -552,11 +552,11 @@ abstract class PKPApplication implements iPKPApplicationInfoProvider
     {
         return [
             'https://creativecommons.org/licenses/by-nc-nd/4.0' => 'submission.license.cc.by-nc-nd4',
-            'https://creativecommons.org/licenses/by-nc/4.0' => 'submission.license.cc.by-nc4',
-            'https://creativecommons.org/licenses/by-nc-sa/4.0' => 'submission.license.cc.by-nc-sa4',
+            // 'https://creativecommons.org/licenses/by-nc/4.0' => 'submission.license.cc.by-nc4',
+            // 'https://creativecommons.org/licenses/by-nc-sa/4.0' => 'submission.license.cc.by-nc-sa4',
             'https://creativecommons.org/licenses/by-nd/4.0' => 'submission.license.cc.by-nd4',
-            'https://creativecommons.org/licenses/by/4.0' => 'submission.license.cc.by4',
-            'https://creativecommons.org/licenses/by-sa/4.0' => 'submission.license.cc.by-sa4'
+            // 'https://creativecommons.org/licenses/by/4.0' => 'submission.license.cc.by4',
+            // 'https://creativecommons.org/licenses/by-sa/4.0' => 'submission.license.cc.by-sa4'
         ];
     }
 

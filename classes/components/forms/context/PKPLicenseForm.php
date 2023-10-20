@@ -51,11 +51,11 @@ class PKPLicenseForm extends FormComponent
                 'label' => __($label),
             ];
         }
-        $licenseUrlOptions[] = [
-            'value' => 'other',
-            'label' => __('manager.distribution.license.other'),
-            'isInput' => true,
-        ];
+        // $licenseUrlOptions[] = [
+        //     'value' => 'other',
+        //     'label' => __('manager.distribution.license.other'),
+        //     'isInput' => true,
+        // ];
 
         $this->addField(new FieldRadioInput('copyrightHolderType', [
             'label' => __('submission.copyrightHolder'),
