@@ -35,7 +35,6 @@
 	</script>
 
 	<div id="app" class="app {if $isLoggedInAs} app--isLoggedInAs{/if}" v-cloak>
-		<vue-announcer></vue-announcer>
 		<header class="app__header" role="banner">
 			{if $availableContexts}
 				<dropdown class="app__headerAction app__contexts">

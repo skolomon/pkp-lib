@@ -43,4 +43,4 @@ msgstr "<b>Редагувати профіль в РІТ НОД</b><br>Для р
 "Після редагування повторно зайдіть в Arxiv Academy.<br><br>"
 
 msgid "user.welcome"
-msgstr "Вітаємо, "
+msgstr "Вітаємо, <i>{$name}</i>"

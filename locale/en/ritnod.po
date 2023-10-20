@@ -43,4 +43,4 @@ msgstr "<b>Edit your profile in DIT ROA</b><br>Follow "
 "After editing, re-login to Arxiv Academy.<br><br>"
 
 msgid "user.welcome"
-msgstr "Welcome "
+msgstr "Welcome, <i>{$name}</i>"
