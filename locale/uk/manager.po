@@ -1333,7 +1333,7 @@ msgstr ""
 
 msgid "manager.setup.workflow.reviewHelp.description"
 msgstr ""
-"Це показується авторам на останньому кроці майстра подачі, коли їх просять "
+"Це показується авторам на останньому кроці майстра подання, коли їх просять "
 "переглянути всю інформацію, яку вони надали, перш ніж надсилати свою роботу."
 
 msgid "manager.setup.workflow.guidance"
@@ -2465,7 +2465,7 @@ msgstr ""
 
 msgid "manager.navigationMenus.submissions.description"
 msgstr ""
-"Покликання на сторінку, де відображаються інструкції щодо подачі матеріалів."
+"Покликання на сторінку, де відображаються інструкції щодо подання матеріалів."
 
 msgid "manager.navigationMenus.current.description"
 msgstr "Покликання на поточний випуск."
@@ -3024,7 +3024,7 @@ msgid "emailTemplate.variable.submission.submissionPublishedUrl"
 msgstr "URL-адреса опублікованого подання"
 
 msgid "emailTemplate.variable.submission.submissionWizardUrl"
-msgstr "URL-адреса подання в майстрі подачі"
+msgstr "URL-адреса подання в майстрі подання"
 
 msgid "emailTemplate.variable.submission.submittingAuthorName"
 msgstr ""
@@ -3398,16 +3398,16 @@ msgstr ""
 "зберігають свої подання для завершення пізніше"
 
 msgid "mailable.submissionAck.name"
-msgstr "Підтвердження подачі"
+msgstr "Підтвердження подання"
 
 msgid "mailable.submissionAck.description"
 msgstr ""
 "Цей електронний лист автоматично надсилається автору, коли вони роблять "
-"подачу. Він надає інформацію про відстеження подання в редакційному процесі "
+"подання. Він надає інформацію про відстеження подання в редакційному процесі "
 "і дякує авторові за подання."
 
 msgid "mailable.submissionAckNotAuthor.name"
-msgstr "Підтвердження подачі (інші автори)"
+msgstr "Підтвердження подання (інші автори)"
 
 msgid "mailable.submissionAckNotAuthor.description"
 msgstr ""
@@ -3415,12 +3415,12 @@ msgstr ""
 "які не є авторами, які подають матеріали."
 
 msgid "mailable.discussionSubmission.name"
-msgstr "Обговорення (подача)"
+msgstr "Обговорення (подання)"
 
 msgid "mailable.discussionSubmission.description"
 msgstr ""
 "Цей електронний лист надсилається, коли створюється обговорення або на нього "
-"відповідають на стадії подачі."
+"відповідають на стадії подання."
 
 msgid "mailable.discussionReview.name"
 msgstr "Обговорення (рецензування)"
@@ -3491,12 +3491,12 @@ msgstr ""
 "стадію рецензування."
 
 msgid "mailable.decision.backToSubmission.notifyAuthor.name"
-msgstr "Подання повернуто на стадію подачі"
+msgstr "Подання повернуто на стадію подання"
 
 msgid "mailable.decision.backToSubmission.notifyAuthor.description"
 msgstr ""
 "Цей електронний лист повідомляє автора про те, що його подання повернуто на "
-"стадію подачі."
+"стадію подання."
 
 msgid "manager.manageEmails"
 msgstr "Керувати електронними листами"
@@ -3594,7 +3594,7 @@ msgstr ""
 "роблять нове подання?"
 
 msgid "manager.submitWithCategories.yes"
-msgstr "Так, додати поле категорій до майстра подачі."
+msgstr "Так, додати поле категорій до майстра подання."
 
 msgid "manager.submitWithCategories.no"
 msgstr "Ні, не показувати авторам це поле."
