@@ -1290,7 +1290,7 @@ msgid "form.multilingualProgress"
 msgstr "{$count}/{$total} мов завершено"
 
 msgid "help.help"
-msgstr "Допомога"
+msgstr "Довідка"
 
 msgid "help.toc"
 msgstr "Зміст"

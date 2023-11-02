@@ -69,7 +69,27 @@
                 :key="step.id"
                 :id="step.id"
                 :label="step.name"
+                style="position: relative;"
             >
+
+                {* Help link skolomon *}
+                <input type="hidden" autofocus="true" />
+                <template v-if="step.id === 'details'">
+                    {help file="submission-wizard" section="details" class="pkp_help_tab"}
+                </template>
+                <template v-else-if="step.id === 'files'">
+                    {help file="submission-wizard" section="files" class="pkp_help_tab"}
+                </template>
+                <template v-else-if="step.id === 'contributors'">
+                    {help file="submission-wizard" section="authors" class="pkp_help_tab"}
+                </template>
+                <template v-else-if="step.id === 'editors'">
+                    {help file="submission-wizard" section="readers" class="pkp_help_tab"}
+                </template>
+                <template v-else-if="step.id === 'review'">
+                    {help file="submission-wizard" section="review" class="pkp_help_tab"}
+                </template>
+
                 <panel>
                     <panel-section v-for="section in step.sections" :key="section.id">
                         <template slot="header">

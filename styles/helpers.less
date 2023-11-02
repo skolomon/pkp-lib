@@ -9,6 +9,8 @@
  *
  */
 
+@screen-vert-help: 880px;
+
 // Buttons
 .pkp_button {
 	display: inline-block;
@@ -220,28 +222,39 @@
 
 	&:focus {
 		outline: 0;
-		box-shadow: 0 0 0 @radius @primary;
+		box-shadow: 0 0 0 2px @primary;
 		border-radius: @radius;
 	}
 }
 
-// A small help link that attaches to a tab
-.pkp_help_tab {
+// A small help link that attaches to a tab //skolomon
+.pkp_help_modal {
 	position: absolute;
-	top: -2rem;
-	right: 2rem;
-	padding: 0.5rem 1em;
+	top: 0.75rem;
+	right: 3rem;
+	padding: .25rem 0.5rem;
 	background: @lift;
-	border-top-left-radius: @radius;
-	border-top-right-radius: @radius;
+	// border-top-left-radius: @radius;
+	// border-top-right-radius: @radius;
+	border-radius: @radius;
+	border: 1px solid @yes;
+	display: flex;
+	align-items: center;
 }
 
-.pkp_help_modal {
-	&:extend(.pkp_help_tab);
-	top: 0.5rem;
-	padding: 0.5rem;
-	right: 3rem;
-	border: none;
+.pkp_help_tab {
+	&:extend(.pkp_help_modal);
+	top: -1.5rem;
+	right: 1rem;
+	border-bottom: none;
+
+	@media(max-width: @screen-vert-help) { //skolomon
+		padding: .25rem;
+		transform: rotate(90deg) translate(100%, 100%);
+		transform-origin: 100% 100%;
+		right: -1rem;
+		top: -0.5rem;
+	}
 }
 
 // Summary of an uploaded file

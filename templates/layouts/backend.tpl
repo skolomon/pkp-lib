@@ -60,6 +60,11 @@
 				{**skolomon*}
 				{if $displayPageHeaderLogo}
 					<a class="app__contextImage" href="{url page="index"}">
+						<div class="app__headerAction">
+							<button>
+								<icon icon="home"></icon>
+							</button>
+						</div>
 						<img src="{$publicFilesDir}/{$displayPageHeaderLogo.uploadName|escape:"url"}" width="{$displayPageHeaderLogo.width|escape}" height="{$displayPageHeaderLogo.height|escape}" {if $displayPageHeaderLogo.altText != ''}alt="{$displayPageHeaderLogo.altText|escape}"{/if} />
 					</a>
 				{else}

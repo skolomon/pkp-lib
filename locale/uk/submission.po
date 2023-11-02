@@ -987,7 +987,7 @@ msgid "submission.reviewMetadata"
 msgstr "Перегляд метаданих"
 
 msgid "submission.review"
-msgstr "Рецензування"
+msgstr "Підтвердження"
 
 msgid "submission.reviewAndSubmit"
 msgstr "Розгляд і відправка"
