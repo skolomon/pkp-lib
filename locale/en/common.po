@@ -1469,7 +1469,7 @@ msgid "navigation.browse"
 msgstr "Browse"
 
 msgid "navigation.backTo"
-msgstr "⟵ Back to {$page}"
+msgstr "Back to {$page}"
 
 msgid "navigation.browseByAuthor"
 msgstr "By Author"

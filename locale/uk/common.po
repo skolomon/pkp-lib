@@ -1457,7 +1457,7 @@ msgid "navigation.browse"
 msgstr "Перегляд"
 
 msgid "navigation.backTo"
-msgstr "⟵ Повернутися до сторінки {$page}"
+msgstr "Повернутися до сторінки {$page}"
 
 msgid "navigation.browseByAuthor"
 msgstr "За автором"

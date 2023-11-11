@@ -160,7 +160,7 @@
 		{* Swap the navigation menu for a back-to-dashboard link when only one item exists *}
 		<nav v-if="backToDashboardLink" class="app__returnHeader" aria-label="{translate key="common.navigation.site"}">
 			<a class="app__returnHeaderLink" :href="backToDashboardLink.url">
-				{{ backToDashboardLabel }}
+				<i class="fa fa-angle-left app__backArrow" aria-hidden="true"></i> {{ backToDashboardLabel }}
 			</a>
 		</nav>
 
