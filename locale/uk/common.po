@@ -972,7 +972,7 @@ msgid "common.viewWithName"
 msgstr "Переглянути {$name}"
 
 msgid "common.viewProfile"
-msgstr "Переглянути профайл"
+msgstr "Переглянути профіль"
 
 msgid "common.weeks"
 msgstr "тижнів"
