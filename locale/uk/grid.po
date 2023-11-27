@@ -118,7 +118,7 @@ msgid "grid.action.restoreDefaults.confirm"
 msgstr "Ви впевнені, що бажаєте відновити усталені значення?"
 
 msgid "grid.action.addAuthor"
-msgstr "Додати учасника"
+msgstr "Додати автора"
 
 msgid "grid.action.editAuthor"
 msgstr "Редагувати автора"
@@ -139,7 +139,7 @@ msgid "grid.action.saveOrdering"
 msgstr "Зберегти порядок"
 
 msgid "grid.action.cancelOrdering"
-msgstr "Скасувати впорядкування"
+msgstr "Скасувати сортування"
 
 msgid "grid.action.extendAll"
 msgstr "Показати все"
@@ -407,7 +407,7 @@ msgid "grid.contributor.title"
 msgstr "Учасник"
 
 msgid "grid.action.addContributor"
-msgstr "Додати учасника"
+msgstr "Додати співавтора"
 
 msgid "grid.action.deleteContributor"
 msgstr "Видалити учасника"
@@ -464,7 +464,7 @@ msgstr "Попередній перегляд"
 
 msgid "contributor.listPanel.preview.description"
 msgstr ""
-"Осіб, які зробили свій внесок у цю публікацію, буде визначено в таких "
+"Осіб, які зробили свій внесок у цю публікацію, буде зазначено в таких "
 "форматах."
 
 msgid "contributor.listPanel.preview.format"

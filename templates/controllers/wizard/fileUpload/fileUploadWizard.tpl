@@ -36,7 +36,7 @@
 <div id="{$uploadWizardId}">
 
 	{* Help link skolomon*}
-    {help file="submission-wizard" section="files" class="pkp_help_modal"}
+    {help file="submission-wizard" section="file-wizard" class="pkp_help_modal"}
 
 	<ul>
 		<li><a href="{url op="displayFileUploadForm" submissionId=$submissionId stageId=$stageId uploaderRoles=$uploaderRoles fileStage=$fileStage revisionOnly=$revisionOnly reviewRoundId=$reviewRoundId revisedFileId=$revisedFileId assocType=$assocType assocId=$assocId dependentFilesOnly=$dependentFilesOnly queryId=$queryId}">{translate key="submission.submit.uploadStep"}</a></li>
