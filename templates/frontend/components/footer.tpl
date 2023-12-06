@@ -30,9 +30,18 @@
 
 	<div class="pkp_structure_footer">
 
-		{if $pageFooter}
+		{if $pageFooter || ($activeTheme->getOption('displayPageFooterLogo')!=='none' && $displayPageHeaderLogo)}
 			<div class="pkp_footer_content">
-				{$pageFooter}
+				<a href="{url page="about"}">
+					{if $activeTheme->getOption('displayPageFooterLogo')!=='none' && $displayPageHeaderLogo}
+						<p class="footer-logo{if $activeTheme->getOption('displayPageFooterLogo')==='mono'} mono-logo{/if}">
+							<img src="{$publicFilesDir}/{$displayPageHeaderLogo.uploadName|escape:"url"}" width="{$displayPageHeaderLogo.width|escape}" height="{$displayPageHeaderLogo.height|escape}" {if $displayPageHeaderLogo.altText != ''}alt="{$displayPageHeaderLogo.altText|escape}"{/if} />
+						</p>
+					{/if}
+					{if $pageFooter}
+						{$pageFooter}
+					{/if}
+				</a>
 			</div>
 		{/if}
 
