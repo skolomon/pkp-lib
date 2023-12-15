@@ -18,9 +18,10 @@ msgstr ""
 "Помилка виконання запиту до РІТ НОД."
 
 msgid "api.403.coAuthorNotFound"
-msgstr ""
-"Співавтор не знайдений. "
-"Помилка: {$error}"
+msgstr "KEEP15"
+"<h4 class='title'>Невдалий пошук</h4>"
+"<p class="no-red">Співавтор не знайдений.</h4>"
+"<p>Помилка: <i>{$error}</i></p>"
 
 msgid "submit.author.findCoAuthors"
 msgstr "<b>Пошук співавторів по базі РІТ НОД</b><br>"

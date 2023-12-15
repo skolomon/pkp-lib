@@ -229,14 +229,22 @@
 			aria-live="polite"
 			aria-atomic="true"
 			class="app__notifications"
-			ref="notifications"
 			role="status"
+			:class = "notifications.filter(n=>n.keep).length ? 'app__notifications_keep' : ''"
 		>
-			<transition-group name="app__notification">
-				<notification v-for="notification in notifications" :key="notification.key" :type="notification.type" :can-dismiss="true" @dismiss="dismissNotification(notification.key)">
-					{{ notification.message }}
-				</notification>
-			</transition-group>
+			<div class="notifications_container" ref="notifications">
+				<transition-group name="app__notification">
+					<notification v-for="notification in notifications" :key="notification.key" :type="notification.type" :can-dismiss="true" @dismiss="dismissNotification(notification.key)" :class = "notification.keep ? 'notification_keep':''">
+						<div v-html="notification.message"></div>
+						<button
+							v-if="notification.keep"
+							class="pkpButton pkpNotificationKeep__closeButton"
+							@click="dismissNotification(notification.key);"
+						>{translate key="common.close"}
+						</button>
+					</notification>
+				</transition-group>
+			</div>
 		</div>
 		<transition name="app__loading">
 			<div

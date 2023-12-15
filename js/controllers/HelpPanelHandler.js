@@ -250,7 +250,7 @@
 			$targetHash = $element.find(
 					'a[name="' + this.requestedSection_ + '"]');
 			if ($targetHash.length) {
-				panel.scrollTop($targetHash.offset().top - 50);
+				panel.scrollTop($targetHash.offset().top - 50 - window.scrollY - 15);
 			}
 		}
 

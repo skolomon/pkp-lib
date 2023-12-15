@@ -191,6 +191,10 @@ class LoginHandler extends Handler
         }
 
         //skolomon
+        $session = $request->getSession();
+        $session->setSessionVar('username', null);
+        $session->setSessionVar('profileId', null);
+        //skolomon
         $request->redirect(null, "index"); //home page
 
         // $source = $request->getUserVar('source');

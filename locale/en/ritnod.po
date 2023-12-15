@@ -16,9 +16,10 @@ msgstr ""
 "Error while performing the request to DIT ROA."
 
 msgid "api.403.coAuthorNotFound"
-msgstr ""
-"Co-author not found. "
-"Error: {$error}"
+msgstr "KEEP15"
+"<h4 class='title'>Search failed</h4>"
+"<p class="no-red">Co-author not found.</p>"
+"<p>Error: <i>{$error}<i></p>"
 
 msgid "submit.author.findCoAuthors"
 msgstr "<b>Find your co-author in the DIT ROA database</b><br>"
