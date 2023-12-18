@@ -1803,7 +1803,11 @@ class PKPSubmissionHandler extends APIHandler
         $user->setAffiliation($userProf->full_name_inst, "uk");
         $user->setAffiliation($userProf->full_name_inst_en, "en");
 
-        $user->setOrcid($userProf->ORCID);
+        $orcid = $userProf->ORCID;
+        if ($orcid && !str_contains(strtolower($orcid), 'orcid.org')) {
+            $orcid = 'https://orcid.org/' . $orcid;
+        }
+        $user->setOrcid($orcid);
         $user->setCountry($params['country']);
 
         $user->setPassword(Validation::encryptCredentials($username, $username . 'pass'));
