@@ -1747,14 +1747,34 @@ class PKPSubmissionHandler extends APIHandler
             return $response->withStatus(403)->withJsonError('api.403.requsetError');
         }
 
-        $userInfo = json_decode($responsePOST);
-        if ($userInfo->Key) {
-            return $response->withStatus(403)->withJsonError('api.403.coAuthorNotFound', ['error' => $userInfo->Value]);
+        $userProf = json_decode($responsePOST);
+        if (isset($userProf->Key)) {
+            return $response->withStatus(403)->withJsonError('api.403.coAuthorNotFound', ['error' => $userProf->Value]);
         }
 
         // ~RIT NOD
 
-        $username = explode('@', $userInfo->email)[0];
+        //checkUserProfile (from ritNod.php)
+        {
+            $errors = '';
+            $checkPoints = ['imya_ua', 'prizvische_ua', 'imya_en', 'prizvische_en', 'agreement_publ']; //'ORCID'?
+            foreach ($checkPoints as $point) {
+                if (!isset($userProf->$point) || !$userProf->$point) {
+                    $errors .= '<li>' . __('profile.error.' . $point) . '</li>';
+                }
+            }
+            if ($errors) {
+                return $response->withStatus(403)->withJsonError('api.403.coauthorProfileError', [
+                    'errors' => '<ul>' . $errors . '</ul>',
+                    'imya_ua' => $userProf->imya_ua ?? $userProf->imya_en,
+                    'pobatkovi_ua' => $userProf->pobatkovi_ua,
+                    'prizvische_ua' => $userProf->prizvische_ua ?? $userProf->prizvische_en,
+                    'imya_en' => $userProf->imya_en ?? $userProf->imya_ua,
+                    'prizvische_en' => $userProf->prizvische_en ?? $userProf->prizvische_ua]);
+            }
+        }
+
+        $username = explode('@', $userProf->email)[0];
 
         $user = Repo::user()->getByUsername($username, true);
 
@@ -1772,18 +1792,18 @@ class PKPSubmissionHandler extends APIHandler
             $user->setInlineHelp(1); // default new users to having inline help visible.
         }
 
-        $user->setEmail($userInfo->email);
+        $user->setEmail($userProf->email);
 
-        $user->setGivenName($userInfo->imya_ua, "uk");
-        $user->setGivenName($userInfo->imya_en, "en");
-        $user->setFamilyName($userInfo->prizvische_ua, "uk");
-        $user->setFamilyName($userInfo->prizvische_en, "en");
-        $user->setData("poBatkovi", $userInfo->pobatkovi_ua, "uk");
-        $user->setData("poBatkovi", $userInfo->pobatkovi_en, "en");
-        $user->setAffiliation($userInfo->full_name_inst, "uk");
-        $user->setAffiliation($userInfo->full_name_inst_en, "en");
+        $user->setGivenName($userProf->imya_ua, "uk");
+        $user->setGivenName($userProf->imya_en, "en");
+        $user->setFamilyName($userProf->prizvische_ua, "uk");
+        $user->setFamilyName($userProf->prizvische_en, "en");
+        $user->setData("poBatkovi", $userProf->pobatkovi_ua, "uk");
+        $user->setData("poBatkovi", $userProf->pobatkovi_en, "en");
+        $user->setAffiliation($userProf->full_name_inst, "uk");
+        $user->setAffiliation($userProf->full_name_inst_en, "en");
 
-        $user->setOrcid($userInfo->ORCID);
+        $user->setOrcid($userProf->ORCID);
         $user->setCountry($params['country']);
 
         $user->setPassword(Validation::encryptCredentials($username, $username . 'pass'));

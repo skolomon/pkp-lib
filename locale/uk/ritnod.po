@@ -13,6 +13,61 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.13.1\n"
 
+msgid "login.error.title"
+msgstr "Помилка входу"
+
+msgid "login.error.description"
+msgstr ""
+"<p>Не вдалося отримати дані користувача з РІТ НОД.<br>Помилка: <span class='error-msg'>{$error}</span></p>"
+"<p>Спробуйте пізніше.</p>"
+
+msgid "login.error.noresponce"
+msgstr "Сервер не відповідає."
+
+msgid "profile.error.imya_ua"
+msgstr "відсутнє імʼя"
+
+msgid "profile.error.prizvische_ua"
+msgstr "відсутнє прізвище"
+
+msgid "profile.error.imya_en"
+msgstr "відсутнє імʼя англійською"
+
+msgid "profile.error.prizvische_en"
+msgstr "відсутнє прізвище англійською"
+
+msgid "profile.error.agreement_publ"
+msgstr "не надано дозвіл на оприлюднення"
+
+msgid "profile.error.ORCID"
+msgstr "відсутній ORCID"
+
+msgid "profile.error.title"
+msgstr "Неповний профіль користувача"
+
+msgid "profile.error.description"
+msgstr ""
+"<p>В профілі користувача в РІТ НОД <strong class='error-msg'>відсутні</strong> "
+"наступні елементи даних: </p><strong class='error-msg'>{$errors}</strong>"
+"<p>Без внесення цих даних до профіля користувача, або якщо Ви "
+"не надали дозвіл на оприлюднення в профілі, то Ви не можете "
+"зареєструватися та увійти в систему <i>Arxiv Academy</i>.</p>"
+"<p>Щоб внести ці дані в профіль, зайдіть в Ваш "
+"<a href='https://profile-user.nas.gov.ua' target='_blank'><b>Особистий кабінет НАНУ</b></a>, "
+"після чого виконайте повторний вхід в <i>Arxiv Academy</i>.</p>"
+
+msgid "api.403.coauthorProfileError"
+msgstr "KEEP45"
+"<h4 class='title'>Неповний профіль cпівавтора</h4>"
+"<p>Знайдений співавтор: <strong>{$imya_ua} {$pobatkovi_ua} {$prizvische_ua}</strong>.</p>"
+"<p>У профілі співавтора в РІТ НОД <strong class='error-msg'>відсутні</strong> "
+"наступні елементи даних:</p><strong class='error-msg'>{$errors}</strong>"
+"<p>Без цих даних,  або якщо співавтор не надав дозвіл на оприлюднення, "
+"такий профіль не може бути використаний для додавання співавтора в <i>Arxiv Academy</i>.</p>"
+"<p>Повідомте співавтору, щоб він додав ці дані, зайшовши в свій  <i><u>Особистий кабінет НАНУ</u></i>.</p>"
+"<p><i>Порада.</i> Ви можете зберегти подання на потім і повернутися до нього, щойно Ваш співавтор "
+"виправить свій профіль.</p>"
+
 msgid "api.403.requsetError"
 msgstr ""
 "Помилка виконання запиту до РІТ НОД."

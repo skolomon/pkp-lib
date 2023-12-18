@@ -11,6 +11,61 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.13.1\n"
 
+msgid "login.error.title"
+msgstr "Login failed"
+
+msgid "login.error.description"
+msgstr ""
+"<p>Could not obtain user profile from DIT ROA.<br>Error: <span class='error-msg'>{$error}</span></p>"
+"Try again later."
+
+msgid "login.error.noresponce"
+msgstr "Server not responding."
+
+msgid "profile.error.imya_ua"
+msgstr "Given Name missing"
+
+msgid "profile.error.prizvische_ua"
+msgstr "Last Name missing"
+
+msgid "profile.error.imya_en"
+msgstr "Given Name in English missing"
+
+msgid "profile.error.prizvische_en"
+msgstr "Last Name in English missing"
+
+msgid "profile.error.agreement_publ"
+msgstr "Consent for Publication not given"
+
+msgid "profile.error.ORCID"
+msgstr "ORCID missing"
+
+msgid "profile.error.title"
+msgstr "Incomplete User Profile"
+
+msgid "profile.error.description"
+msgstr ""
+"<p>The following data points are <strong class='error-msg'>missing</strong> "
+"from the DIT ROA User Profile: </p><strong class='error-msg'>{$errors}</strong>"
+"<p>You must provide these data points and give Consent for Publication in the User Profile "
+"in order to register and login into the <i>Arxiv Academy</i> system.</p>"
+"<p>Please log into your "
+"<a href='https://profile-user.nas.gov.ua' target='_blank'><b>NASU Personal cabinet</b></a> "
+"to fill out the information. Then please re-login into the <i>Arxiv Academy</i>.</p>"
+
+msgid "api.403.coauthorProfileError"
+msgstr "KEEP45"
+"<h4 class='title'>Incomplete Coauthor Profile</h4>"
+"<p>Coauthor found: <strong>{$imya_en} {$prizvische_en}</strong>.</p>"
+"<p>The following data points are <strong class='error-msg'>missing</strong> "
+"from the DIT ROA Coauthor Profile: </p><strong class='error-msg'>{$errors}</strong>"
+"<p>The coauthor must provide these data points and give Consent for Publication in their User Profile "
+"before you can add this coahtor to your submission in <i>Arxiv Academy</i>.</p>"
+"<p>Please inform your coauthor that they need to log into their <i><u>NASU Personal Cabinet</u></i> "
+"to add the missing data points.</p>"
+"<p><i>Note.</i> In the meantime, you can Save your submission For Later and then go back to it "
+"once your coauthor fixes their profile.</p>"
+
 msgid "api.403.requsetError"
 msgstr ""
 "Error while performing the request to DIT ROA."
