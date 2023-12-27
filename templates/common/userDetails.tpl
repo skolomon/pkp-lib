@@ -22,6 +22,9 @@
  *   $extraContentSectionUnfolded: Whether or not the extra content section is unfolded by default
  *}
 
+{if $isNotVerified} {*skolomon*}
+	<p style="color:red">{translate key="dogovir.error.notVerified"}</p>
+{/if}
 {fbvFormArea id="userDetails"}
 	{fbvFormSection title="user.name"}
 		{fbvElement type="text" label="user.givenName" multilingual="true" name="givenName" id="givenName" value=$givenName maxlength="255" inline=true size=$fbvStyles.size.MEDIUM required="true"}

@@ -100,3 +100,41 @@ msgstr "<b>Edit your profile in DIT ROA</b><br>Follow "
 
 msgid "user.welcome"
 msgstr "Welcome, <i>{$name}</i>"
+
+msgid "dogovir.title"
+msgstr "License Agreement of Accession"
+
+msgid "dogovir.subtitle"
+msgstr "Read and sign the License Agreement of Accession"
+
+msgid "dogovir.description"
+msgstr "The use of the Archive of Preprints of the National Academy of Sciences of Ukraine "
+"(hereinafter – the Archive) is carried out on the basis of the Electronic License Agreement "
+"for the use of preprints in the Archive of Preprints of the National Academy of Sciences of Ukraine "
+"between the Glushkov Institute of Cybernetics of the National Academy of Sciences of Ukraine "
+"(hereinafter – the Licensee) and the person who transfers the electronic copy of a preprint "
+"to the Repository (hereinafter – Licensor), which is concluded via the offer to conclude it "
+"(the Offer) by the Licensee and its acceptance by the Licensor."
+
+msgid "dogovir.description2"
+msgstr "By clicking the \"Sign the Agreement\" button, the Licensor accepts the Licensee's offer "
+"regarding the conclusion of the Electronic License Agreement for the use of preprints "
+"in the Archive of Preprints of the National Academy of Sciences of Ukraine."
+
+msgid "dogovir.sign"
+msgstr "Sign the Agreement"
+
+msgid "dogovir.decline"
+msgstr "Decline"
+
+msgid "dogovir.notes"
+msgstr "<i>If you decline, you can continue using the Archive without registration in read-only mode, "
+"but you won't be able to submit your own preprints.</i>"
+
+msgid "dogovir.ask"
+msgstr "I, {$name_en}, accept the Licensee's offer "
+"regarding the conclusion of the Electronic License Agreement for the use of preprints "
+"in the Archive of Preprints of the National Academy of Sciences of Ukraine."
+
+msgid "dogovir.error.notVerified"
+msgstr "<b>Accession Agreement not signed!</b>"

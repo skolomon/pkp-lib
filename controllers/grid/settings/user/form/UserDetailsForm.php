@@ -158,6 +158,7 @@ class UserDetailsForm extends UserForm
             $interestManager = new InterestManager();
 
             $data = [
+                'isNotVerified' => !$user->getDateValidated(), //skolomon
                 'username' => $user->getUsername(),
                 'givenName' => $user->getGivenName(null), // Localized
                 'familyName' => $user->getFamilyName(null), // Localized
