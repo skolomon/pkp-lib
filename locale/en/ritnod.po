@@ -83,7 +83,7 @@ msgstr "<b>Find your co-author in the DIT ROA database</b><br>"
 "<i>If nothing found, please either make the search criteria more precise, "
 "or vice versa, remove some extra criteria that can restrict search.</i>"
 "<br><br><b>Co-author absent in the DIT ROA database?</b><br>You can use "
-"<a href='https://profile-user.nas.gov.ua/coauthor/grids' target='_blank'>this link</a> "
+"<a href='https://profile-user.nas.gov.ua/coauthor/grids?token={$token}' target='_blank'>this link</a> "
 "to enter them in the DIT ROA database."
 
 msgid "submit.author.buttonSearch"

@@ -85,7 +85,7 @@ msgstr "<b>Пошук співавторів по базі РІТ НОД</b><br>
 "<i>Якщо нічого не знайдено, уточніть критерії "
 "пошуку, або навпаки приберіть зайві критерії, що можуть обмежити пошук.</i>"
 "<br><br><b>Співавтор відсутній в базі РІТ НОД?</b><br>Додайте його до бази РІТ НОД "
-"за <a href='https://profile-user.nas.gov.ua/coauthor/grids' target='_blank'>посиланням</a>."
+"за <a href='https://profile-user.nas.gov.ua/coauthor/grids?token={$token}' target='_blank'>посиланням</a>."
 
 msgid "submit.author.buttonSearch"
 msgstr "Шукати"

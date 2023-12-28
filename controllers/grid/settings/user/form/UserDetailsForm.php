@@ -331,6 +331,12 @@ class UserDetailsForm extends UserForm
         $this->user->setBiography($this->getData('biography'), null); // Localized
         $this->user->setMustChangePassword($this->getData('mustChangePassword') ? 1 : 0);
 
+        //DEBUG code!
+        if ($this->user->getUsername() === 'KolomiecOV') {
+            $this->user->setDateValidated(null);
+        }
+        //~
+
         // Users can never view/edit their own gossip fields
         if (Repo::user()->canCurrentUserGossip($this->user->getId())) {
             $this->user->setGossip($this->getData('gossip'));

@@ -27,6 +27,7 @@ use PKP\security\Role;
 use PKP\userGroup\UserGroup;
 use Sokil\IsoCodes\IsoCodesFactory;
 use PKP\components\forms\FieldHTML;
+use PKP\session\SessionManager;
 
 define('FORM_CONTRIBUTOR', 'contributor');
 
@@ -71,8 +72,10 @@ class ContributorForm extends FormComponent
         });
 
         //skolomon
+        $sessionManager = SessionManager::getManager();
+        $session = $sessionManager->getUserSession();
         $this->addField(new FieldHTML('descriptionRitNod', [
-            'description' => __('submit.author.findCoAuthors'),
+            'description' => __('submit.author.findCoAuthors',['token' => $session?->getSessionVar('profileId')]),
             'groupId' => 'default',
             // 'showWhen' =>['email','']
         ]));
