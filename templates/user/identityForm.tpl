@@ -23,9 +23,11 @@
 
 	{include file="controllers/notification/inPlaceNotification.tpl" notificationId="identityFormNotification"}
 
-	<section>
-		{translate key="user.editInRitNod"}
-	</section>
+	{fbvFormArea}
+		{fbvFormSection}
+			{translate key="user.editInRitNod"}
+		{/fbvFormSection}
+	{/fbvFormArea}
 
 	{fbvFormArea id="userNameInfo"}
 		{fbvFormSection title="user.username"}

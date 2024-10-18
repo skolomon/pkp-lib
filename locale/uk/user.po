@@ -476,13 +476,13 @@ msgstr ""
 "\"https://orcid.org/0000-0002-1825-0097\")."
 
 msgid "user.profile.identity"
-msgstr "Ідентифікація"
+msgstr "Особисті дані"
 
 msgid "user.profile.contact"
-msgstr "Контактна інформація"
+msgstr "Контакти"
 
 msgid "user.profile.public"
-msgstr "Відкритий"
+msgstr "Публічні дані"
 
 msgid "user.apiKey"
 msgstr "Ключ API"

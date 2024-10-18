@@ -94,9 +94,9 @@ msgid "user.poBatkovi"
 msgstr "По-батькові"
 
 msgid "user.editInRitNod"
-msgstr "<b>Редагувати профіль в РІТ НОД</b><br>Для редагування Вашого профіля в РІТ НОД перейдіть "
+msgstr "<label>Редагувати профіль в РІТ НОД</label><p>Для редагування Вашого профіля в РІТ НОД перейдіть "
 "за <a href='https://profile-user.nas.gov.ua' target='_blank'>посиланням</a>.<br>"
-"Після редагування повторно зайдіть в Arxiv Academy.<br><br>"
+"Після редагування повторно зайдіть в Arxiv Academy.</p>"
 
 msgid "user.welcome"
 msgstr "Вітаємо, <i>{$name}</i>"

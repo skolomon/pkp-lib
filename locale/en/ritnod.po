@@ -93,10 +93,10 @@ msgid "user.poBatkovi"
 msgstr "Patrinymic"
 
 msgid "user.editInRitNod"
-msgstr "<b>Edit your profile in DIT ROA</b><br>Follow "
+msgstr "<label>Edit your profile in DIT ROA</label><p>Follow "
 "<a href='https://profile-user.nas.gov.ua' target='_blank'>the link</a> "
 "to edit your profile in DIT ROA.<br>"
-"After editing, re-login to Arxiv Academy.<br><br>"
+"After editing, re-login to Arxiv Academy.</p>"
 
 msgid "user.welcome"
 msgstr "Welcome, <i>{$name}</i>"
