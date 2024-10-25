@@ -107,7 +107,7 @@ msgid "common.confirmDelete"
 msgstr "Ви впевнені, що бажаєте це видалити? Цю дію неможливо відмінити."
 
 msgid "common.abstract"
-msgstr "Анотація (двома мовами)"
+msgstr "Анотація"
 
 msgid "common.accepted"
 msgstr "Підтверджений"

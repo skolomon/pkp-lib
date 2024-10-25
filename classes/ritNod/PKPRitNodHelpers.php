@@ -26,6 +26,10 @@ use APP\core\Application;
 use APP\notification\NotificationManager;
 use APP\notification\Notification;
 use APP\template\TemplateManager;
+use APP\publication\Publication;
+use PKP\doi\exceptions\DoiException;
+use PKP\context\Context;
+use PKP\config\Config;
 
 class PKPRitNodHelpers {
     public static function prepareDogovir($user, $request) {
@@ -40,9 +44,6 @@ class PKPRitNodHelpers {
     {
         return "<p>test Helper string</p>";
     }
-
-
-
 
 
 
@@ -545,12 +546,175 @@ class PKPRitNodHelpers {
         $templateMgr->display('/ritNod/errorModal.tpl');
     }
 
+    public static function registerDoiOnDataCite(Context $context, Publication $publication, $publicationUrl)
+    {
+        function decodeString($strEnc)
+        {
+            return json_decode('"' . $strEnc . '"');
+        }
 
+        $doiCreationFailures = [];
+        $doiUser = Config::getVar('doi', 'username');
+        $doiPassword = Config::getVar('doi', 'password');
+        $doiUrl = Config::getVar('doi', 'url');
+        if (!$doiUser || !$doiPassword || !$doiUrl) {
+            $doiCreationFailures[] = new DoiException('doi.dataCiteNoPassword');
+            return $doiCreationFailures;
+        }
+        $doiPrefix = $context->getData(Context::SETTING_DOI_PREFIX);
+        if (empty($doiPrefix)) {
+            $doiCreationFailures[] = new DoiException('doi.exceptions.missingPrefix');
+            return $doiCreationFailures;
+        }
 
+        if (empty($publication->getData('doiId'))) {
+            $publLoc = $publication->getData('locale');
+            $otherLoc = $publLoc == 'en' ? 'uk' : 'en';
 
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $doiUrl);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                "Content-Type: application/vnd.api+json"
+            ));
+            curl_setopt($ch, CURLOPT_USERPWD, $doiUser . ':' . $doiPassword);
 
+            $authorsArray = [];
+            foreach ($publication->getData('authors') as $author) {
+                $nameEn = $author->getData('givenName', 'en');
+                // $nameUk = $author->getData('givenName','uk');
+                $lastNameEn = $author->getData('familyName', 'en');
+                // $lastNameUk = $author->getData('familyName','uk');
+                // $fullNameEn = $author->getData('preferredPublicName', 'en') ?? $lastNameEn . ', ' . $nameEn;
+                // $fullNameUk = $author->getData('preferredPublicName','uk') ?? $lastNameUk . ', ' . $nameUk;
+                $fullNameEn = $lastNameEn . ', ' . $nameEn;
+                $authorData = [
+                    "name" => $fullNameEn,
+                    "nameType" => "Personal",
+                    "givenName" => $nameEn,
+                    "familyName" => $lastNameEn,
+                    "affiliation" => [
+                        [
+                            "name" => $author->getData('affiliation', 'en')
+                        ]
+                    ],
+                ];
+                $orcid = $author->getOrcid();
+                if (isset($orcid) && !empty($orcid)) {
+                    $authorData["nameIdentifiers"] = [
+                        [
+                            "schemeUri" => "https://orcid.org",
+                            "nameIdentifier" => $orcid,
+                            "nameIdentifierScheme" => "ORCID"
+                        ]
+                    ];
+                }
+                $authorsArray[] = $authorData;
+            }
 
+            $titleArray = [
+                [
+                    "lang" => $publLoc,
+                    "title" => decodeString(strip_tags($publication->getData('title', $publLoc))),
+                ],
+                [
+                    "lang" => $otherLoc,
+                    "title" => decodeString(strip_tags($publication->getData('title', $otherLoc))),
+                    "titleType" => "TranslatedTitle"
+                ]
+            ];
+            $descriptionArray = [
+                [
+                    "lang" => "en",
+                    "description" => decodeString(strip_tags($publication->getData('abstract', 'en'))),
+                    "descriptionType" => "Abstract"
+                ],
+                [
+                    "lang" => "uk",
+                    "description" => decodeString(strip_tags($publication->getData('abstract', 'uk'))),
+                    "descriptionType" => "Abstract"
+                ]
+            ];
 
+            $datePublished = $publication->getData('datePublished');
+            $year = $publication->getData('copyrightYear');
+
+            $data = [
+                "data" => [
+                    "type" => "dois",
+                    "attributes" => [
+                        "prefix" => $doiPrefix,
+                        "event" => "publish",
+
+                        "creators" => $authorsArray,
+                        "titles" => $titleArray,
+                        "publisher" => "Arxiv Academy",
+                        "publicationYear" => $year,
+                        "descriptions" => $descriptionArray,
+                        "rightsList" => [
+                            [
+                                "rightsUri" => decodeString($publication->getData('licenseUrl'))
+                            ]
+                        ],
+                        "url" => decodeString($publicationUrl),
+                        "language" => $publLoc,
+                        "types" => [
+                            "resourceTypeGeneral" => "Preprint"
+                        ],
+                        "dates" => [
+                            "date" => $datePublished,
+                            "dateType" => "Issued"
+                        ]
+                    ]
+                ]
+            ];
+
+            $payload = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $res = curl_exec($ch);
+            $response = json_decode($res);
+            curl_close($ch);
+
+            if (isset($response->errors)) {
+                $doiCreationFailures[] = new DoiException(
+                    'doi.dataCiteError',
+                    $publication->getData('title', $publLoc),
+                    json_encode(
+                        $response->errors,
+                        JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+                    )
+                );
+            } else {
+                $doiSuffix = $response->data->attributes->suffix;
+                if (!isset($doiSuffix) || empty($doiSuffix)) {
+                    $doiCreationFailures[] = new DoiException(
+                        'doi.dataCiteError',
+                        $publication->getData('title', $publLoc)
+                    );
+                    return $doiCreationFailures;
+                }
+                try {
+                    $completedDoi = $doiPrefix . '/' . $doiSuffix;
+
+                    $doiDataParams = [
+                        'doi' => $completedDoi,
+                        'contextId' => $context->getId()
+                    ];
+
+                    $doi = Repo::doi()->newDataObject($doiDataParams);
+                    $doiId =  Repo::doi()->add($doi);
+
+                    Repo::doi()->markRegistered($doiId);
+                    Repo::publication()->edit($publication, ['doiId' => $doiId]);
+                } catch (DoiException $exception) {
+                    $doiCreationFailures[] = $exception;
+                }
+            }
+        }
+        return $doiCreationFailures;
+    }
 
 }
 

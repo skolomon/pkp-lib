@@ -144,3 +144,9 @@ msgstr "Agreement"
 
 msgid "dogovir.signed"
 msgstr "This Agreement was signed on "
+
+msgid "doi.dataCiteError"
+msgstr "DataCite could not create DOI for {$itemTitle}: {$pubObjectTitle}"
+
+msgid "doi.dataCiteNoPassword"
+msgstr "Username, password, or URL for the DataCite account are missing in the configuration file"

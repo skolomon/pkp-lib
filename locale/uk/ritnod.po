@@ -140,3 +140,9 @@ msgstr "Договір"
 
 msgid "dogovir.signed"
 msgstr "Договір підписано: "
+
+msgid "doi.dataCiteError"
+msgstr "Помилка створення DOI сервісом DataCite для {$itemTitle}: {$pubObjectTitle}"
+
+msgid "doi.dataCiteNoPassword"
+msgstr "Відсутні імʼя користувача, пароль або URL до акаунта DataCite в файлі конфігурації"
