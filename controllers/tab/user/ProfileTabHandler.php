@@ -34,6 +34,8 @@ use PKP\user\form\ContactForm;
 use PKP\user\form\IdentityForm;
 use PKP\user\form\PublicProfileForm;
 use PKP\user\form\RolesForm;
+use PKP\user\form\AgreementForm;
+// use PKP\ritNod\PKPRitNodHelpers;
 
 class ProfileTabHandler extends Handler
 {
@@ -89,6 +91,35 @@ class ProfileTabHandler extends Handler
         }
         return new JSONMessage(true, $identityForm->fetch($request));
     }
+
+
+
+
+    public function agreement($args, $request)
+    {
+        $this->setupTemplate($request);
+        $agreementForm = new AgreementForm($request->getUser());
+        $agreementForm->initData();
+        return new JSONMessage(true, $agreementForm->fetch($request));
+    }
+
+
+    public function saveAgreement($args, $request)
+    {
+        $this->setupTemplate($request);
+
+        $agreementForm = new AgreementForm($request->getUser());
+        $agreementForm->readInputData();
+        if ($agreementForm->validate()) {
+            $agreementForm->execute();
+            // $notificationMgr = new NotificationManager();
+            // $notificationMgr->createTrivialNotification($request->getUser()->getId());
+            return new JSONMessage(true);
+        }
+        return new JSONMessage(true, $agreementForm->fetch($request));
+    }
+
+
 
     /**
      * Display form to edit user's contact information.

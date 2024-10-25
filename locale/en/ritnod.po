@@ -138,3 +138,9 @@ msgstr "I, {$name_en}, accept the Licensee's offer "
 
 msgid "dogovir.error.notVerified"
 msgstr "<b>Accession Agreement not signed!</b>"
+
+msgid "dogovir.tab"
+msgstr "Agreement"
+
+msgid "dogovir.signed"
+msgstr "This Agreement was signed on "

@@ -134,3 +134,9 @@ msgstr "Я, {$name}, приймаю (акцептую) пропозицією (�
 
 msgid "dogovir.error.notVerified"
 msgstr "<b>Не підписав Договір Приєднання!</b>"
+
+msgid "dogovir.tab"
+msgstr "Договір"
+
+msgid "dogovir.signed"
+msgstr "Договір підписано: "
