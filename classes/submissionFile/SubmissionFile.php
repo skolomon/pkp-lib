@@ -18,6 +18,7 @@ namespace PKP\submissionFile;
 
 use APP\facades\Repo;
 use PKP\facades\Locale;
+use PKP\db\DAORegistry;
 
 /**
  * @extends \PKP\core\DataObject<DAO>
@@ -200,6 +201,15 @@ class SubmissionFile extends \PKP\core\DataObject
     public function getGenreId()
     {
         return $this->getData('genreId');
+    }
+
+    //skolomon
+    public function isDogovirFile()
+    {
+        /** @var \PKP\submission\GenreDAO */
+        $genreDao = DAORegistry::getDAO('GenreDAO');
+        $genre = $genreDao->getById($this->getGenreId());
+        return !$genre->getData('key');
     }
 
     /**

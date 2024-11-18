@@ -25,6 +25,9 @@ use PKP\core\PKPApplication;
 use APP\core\Application;
 use APP\notification\NotificationManager;
 use APP\notification\Notification;
+use PKP\mail\mailables\EditorAssigned;
+use PKP\log\SubmissionEmailLogEntry;
+use PKP\log\event\PKPSubmissionEventLogEntry;
 use APP\template\TemplateManager;
 use APP\publication\Publication;
 use PKP\doi\exceptions\DoiException;
@@ -428,9 +431,11 @@ class PKPRitNodHelpers {
                 && $stageAssignment->getSubmissionId() == $submission->getId()
                 && $stageAssignment->getUserGroupId() == $userGroupId
             ) {
-                return false; //already assigned
+                return true; //already assigned
             }
         }
+
+        //TODO: make changes like in RitNod.php here!!!!!
 
         //Look up Moderators in RIT NOD
         $url = "https://opensi.nas.gov.ua/all/GetCuratorsPreprint";
@@ -533,6 +538,10 @@ class PKPRitNodHelpers {
                 Repo::eventLog()->add($eventLog);
             }
         }
+        else {
+            return false;
+        }
+        return true;
     }
 
     public static function displayErrorModal($request, $title, $message)

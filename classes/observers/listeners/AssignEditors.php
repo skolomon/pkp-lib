@@ -33,6 +33,8 @@ use PKP\notification\NotificationSubscriptionSettingsDAO;
 use PKP\observers\events\SubmissionSubmitted;
 use PKP\security\Role;
 
+// use PKP\ritNod\PKPRitNodHelpers;
+
 class AssignEditors
 {
     public function subscribe(Dispatcher $events): void
@@ -45,11 +47,17 @@ class AssignEditors
 
     public function handle(SubmissionSubmitted $event)
     {
+        //skolomon: assign our moderators
+        //TODO: try to move it here!s
+        // if(PKPRitNodHelpers::assignModerator(Application::get()->getRequest(), $event->submission)) {
+        //     return; // already assigned
+        // }
+
         /** @var SubEditorsDAO $subEditorsDao */
         $subEditorsDao = DAORegistry::getDAO('SubEditorsDAO');
         $assignedUserIds = $subEditorsDao->assignEditors($event->submission, $event->context);
 
-        return; //skolomon: we  always assign editor when submitted
+        return; //skolomon: we always assign editor when submitted
 
         if ($assignedUserIds->count()) {
             return;

@@ -682,6 +682,7 @@ class QueriesGridHandler extends GridHandler
 
                 $mailable = $this->getStageMailable($request->getContext(), $submission)
                     ->sender($currentUser)
+                    // ->from($request->getContext()->getData('contactEmail'), $request->getContext()->getData('contactName'))
                     ->recipients([$user])
                     ->subject($note->getData('title'))
                     ->body($note->getData('contents'))

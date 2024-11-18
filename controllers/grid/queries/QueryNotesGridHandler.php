@@ -309,6 +309,18 @@ class QueryNotesGridHandler extends GridHandler
             )->filterBySubmissionIds([$submission->getId()])
             ->getMany();
 
+        $managers = Repo::user()
+            ->getCollector()
+            ->filterByRoleIds([Role::ROLE_ID_MANAGER])
+            ->filterByContextIds([$request->getContext()->getId()])
+            ->getMany();
+
+        $sendFrom = $sender;
+        // foreach ($managers as $manager) {
+        if ($managers->count()) {
+            $sendFrom = $managers->first();
+        }
+
         foreach ($queryDao->getParticipantIds($query->getId()) as $userId) {
             // Delete any prior notifications of the same type (e.g. prior "new" comments)
             $notificationDao->deleteByAssoc(
@@ -350,7 +362,8 @@ class QueryNotesGridHandler extends GridHandler
 
             $recipient = Repo::user()->get($userId);
             $mailable = $this->getStageMailable($context, $submission)
-                ->sender($sender)
+                ->sender($sendFrom)
+                // ->from($request->getContext()->getData('contactEmail'), $request->getContext()->getData('contactName'))
                 ->recipients([$recipient])
                 ->subject(__('common.re') . ' ' . $title)
                 ->body($note->getContents())
