@@ -1430,7 +1430,7 @@ msgid "navigation.access"
 msgstr "Користувачі і ролі"
 
 msgid "navigation.about"
-msgstr "Про нас"
+msgstr "Інформація"
 
 msgid "navigation.admin"
 msgstr "Адміністрування"

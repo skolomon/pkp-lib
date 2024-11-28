@@ -100,12 +100,13 @@
 	}
 	.agreement,
 	.agreement * {
-		font-size: 1.25rem !important;
+		font-size: 1.15rem !important;
 		line-height: 1.5;
 		text-align: justify;
+		margin: unset;
 	}
 
-	.agreement h1,
+	/* .agreement h1,
 	.agreement h1 * {
 		font-size: 1.5rem !important;
 	}
@@ -113,6 +114,9 @@
 	.agreement h2,
 	.agreement h2 * {
 		font-size: 1.4rem;
+	} */
+	.agreement sup {
+		top: unset;
 	}
 	.agreement .MsoFootnoteText,
 	.agreement .MsoFootnoteText * {

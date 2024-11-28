@@ -2242,6 +2242,8 @@ msgstr "URL Path"
 
 msgid "publication.urlPath.description"
 msgstr "An optional path to use in the URL instead of the ID."
+"<br><br><p style='font-style:normal;color:initial;width:200%;'><b>Note. </b>"
+"Press <i>Save</i> and then you'll be able to upload your file in the next dialog box."
 
 msgid "publication.urlPath.duplicate"
 msgstr "The URL path has already been used and can not be used again."

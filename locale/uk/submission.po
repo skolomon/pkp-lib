@@ -2593,7 +2593,9 @@ msgid "publication.urlPath"
 msgstr "URL шлях"
 
 msgid "publication.urlPath.description"
-msgstr "Додатковий шлях для використання URL замість ID."
+msgstr "Необовʼязковий додатковий шлях в URL до файла (замість автоматичного ID)."
+"<br><br><p style='font-style:normal;color:initial;width:200%;'><b>Зверніть увагу. </b>"
+"Після натискання на кнопку <i>Зберегти</i> Вам буде запропоновано завантажити файл в наступному діалоговому вікні.</p>"
 
 msgid "publication.urlPath.duplicate"
 msgstr "URL вже використовується і не може бути використаний повторно."

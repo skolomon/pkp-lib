@@ -103,7 +103,7 @@ class ContributorForm extends FormComponent
                 'isMultilingual' => true,
             ]))
             ->addField(new FieldText('email', [
-                'label' => __('user.email'),
+                'label' => __('user.academicemail'),
                 // 'isRequired' => true,
             ]))
             ->addField(new FieldSelect('country', [
