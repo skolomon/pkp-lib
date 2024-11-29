@@ -153,3 +153,10 @@ msgstr "DataCite could not create DOI for {$itemTitle}: {$pubObjectTitle}"
 
 msgid "doi.dataCiteNoPassword"
 msgstr "Username, password, or URL for the DataCite account are missing in the configuration file"
+
+msgid "submit.hangingWarning"
+msgstr "<p style='color:#d00a0a;'><b>The dialog box hanging for long </b>likely means there's "
+"a blackout on the email server. In this case you won't get an email confirmation of your submission.</p>"
+"<p>All your data is saved. Go to <a href='submissions'>Your Submissions page</a> "
+"to make sure that your preprint has the <i>'Production'</i> label, "
+"or go to the <a href='index'>home page</a>.</p>"
