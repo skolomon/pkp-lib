@@ -160,3 +160,9 @@ msgstr "<p style='color:#d00a0a;'><b>The dialog box hanging for long </b>likely 
 "<p>All your data is saved. Go to <a href='submissions'>Your Submissions page</a> "
 "to make sure that your preprint has the <i>'Production'</i> label, "
 "or go to the <a href='index'>home page</a>.</p>"
+
+msgid "search.recommendations"
+msgstr "<p>Search is performed by <i>titles, keywords, authors, affiliations, abstracts, and "
+"publication date range</i> (if specified).</p>"
+"<p><b>Note!</b> When searching in Ukrainian, use the correct word forms and cases. See details in the "
+"<a href='https://arxiv.nas.gov.ua/public/manuals/reader.pdf' target='_blank'>Guide for reader</a>.</p>"

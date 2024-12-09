@@ -33,6 +33,7 @@ use APP\publication\Publication;
 use PKP\doi\exceptions\DoiException;
 use PKP\context\Context;
 use PKP\config\Config;
+use Illuminate\Support\Facades\Mail;
 
 class PKPRitNodHelpers {
     public static function prepareDogovir($user, $request) {
@@ -435,30 +436,28 @@ class PKPRitNodHelpers {
             }
         }
 
-        //TODO: make changes like in RitNod.php here!!!!!
+        // //Look up Moderators in RIT NOD
+        // $url = "https://opensi.nas.gov.ua/all/GetCuratorsPreprint";
 
-        //Look up Moderators in RIT NOD
-        $url = "https://opensi.nas.gov.ua/all/GetCuratorsPreprint";
+        // $body = http_build_query(['token' => $profileId]);
+        // $opts = [
+        //     'http' => [
+        //         // 'method'=>"GET",
+        //         'content' => $body
+        //     ]
+        // ];
+        // $context = stream_context_create($opts);
 
-        $body = http_build_query(['token' => $profileId]);
-        $opts = [
-            'http' => [
-                // 'method'=>"GET",
-                'content' => $body
-            ]
-        ];
-        $context = stream_context_create($opts);
+        // $moderResp = file_get_contents($url, false, $context);
 
-        $moderResp = file_get_contents($url, false, $context);
+        // if (!$moderResp || strpos($moderResp, "error") !== false) {
+        //     return false;
+        // }
 
-        if (!$moderResp || strpos($moderResp, "error") !== false) {
-            return false;
-        }
-
-        $moderArr = json_decode($moderResp);
-        if (gettype($moderArr) !== 'array') {
-            return false;
-        }
+        // $moderArr = json_decode($moderResp);
+        // if (gettype($moderArr) !== 'array') {
+        //     return false;
+        // }
 
         $recommendOnly = false;
         $canChangeMetadata = false;
@@ -467,10 +466,24 @@ class PKPRitNodHelpers {
         $logDao = DAORegistry::getDAO('SubmissionEmailLogDAO');
 
         // foreach ($moderArr as $moderInfo) {
-        $moderCnt = count($moderArr);
-        if ($moderCnt > 0) {
-            $moderInfo = $moderArr[rand(0, $moderCnt - 1)]; //pick random moderator
-            [, $userId] = self::addOrUpdateUserProf($moderInfo);
+        // $moderCnt = count($moderArr);
+
+        $curators = Repo::user()
+            ->getCollector()
+            ->filterByRoleIds([Role::ROLE_ID_SUB_EDITOR])
+            ->filterByContextIds([$request->getContext()->getId()])
+            ->getMany();
+
+        if (!$curators->count()) {
+            return false;
+        }
+
+        foreach ($curators as $curator) {
+
+        // if ($moderCnt > 0) {
+            // $moderInfo = $moderArr[rand(0, $moderCnt - 1)]; //pick random moderator
+            // [, $userId] = self::addOrUpdateUserProf($moderInfo);
+            $userId = $curator->getId();
             if (isset($userId)) {
                 self::assignUserRoles($request, $userId, true);
                 //add user to submission as moderator
@@ -538,9 +551,9 @@ class PKPRitNodHelpers {
                 Repo::eventLog()->add($eventLog);
             }
         }
-        else {
-            return false;
-        }
+        // else {
+        //     return false;
+        // }
         return true;
     }
 
