@@ -1,15 +1,13 @@
 <?php
 
 /**
- * @file classes/ritNod/AgreementForm.php
+ * @file classes/ritNod/PKPRitNodHelpers.php
  *
- * Copyright (c) 2023 Sasz Kolomon
+ * Copyright (c) 2023-2025 Sasz Kolomon
  *
- * @class AgreementForm
+ * @class PKPRitNodHelpers
  *
- * @ingroup user_form
- *
- * @brief Form to show user's Accession agreement information.
+ * @brief Helpers for RIT NOD functionality
  */
 
 namespace PKP\ritNod;
@@ -44,13 +42,6 @@ class PKPRitNodHelpers {
         return $agreementText;
     }
 
-    public static function testHelper()
-    {
-        return "<p>test Helper string</p>";
-    }
-
-
-
     //from RitNod.php
     public static function loginFromRitNod($request)
     {
@@ -63,7 +54,6 @@ class PKPRitNodHelpers {
         // );
         // da();
         // return;
-
 
         $profileId = $_GET['profile_id'];
         // $lang = null;
@@ -95,41 +85,6 @@ class PKPRitNodHelpers {
             $context = stream_context_create($opts);
 
             $userInfo = file_get_contents($url, false, $context);
-
-            // echo "<script>alert('<b>Alert</b> <p>Message here!</p>');</script>";
-            // echo "<p>aaaaaaaaaaaa</p>";
-            // echo "<div id='dialog' title='Basic dialog'><p>This is the default dialog .</p></div>";
-            // echo "<script>$('#dialog').dialog();</script>";
-
-            // $templateMgr = TemplateManager::getManager($request);
-            // $templateMgr->assign([
-            //     'isCategoriesEnabled' => $context->getData('submitWithCategories') && $categories->count(),
-            //     'locales' => $orderedLocales,
-            //     'pageComponent' => 'SubmissionWizardPage',
-            //     'pageTitle' => __('submission.wizard.title'),
-            //     'submission' => $submission,
-            //     'submittingTo' => $this->getSubmittingTo($context, $submission, $sections, $categories),
-            //     'reviewSteps' => $this->getReviewStepsForSmarty($steps),
-            // ]);
-
-            // $templateMgr->display('sasztest.tpl');
-            // $templateMgr->assign([
-            //     'pageTitle' => __('submission.submit.submissionComplete'),
-            //     'pageWidth' => TemplateManager::PAGE_WIDTH_NARROW,
-            //     'submission' => null,//$submission,
-            //     'workflowUrl' => "dddd"//$this->getWorkflowUrl($submission, $request->getUser()),
-            // ]);
-            // $templateMgr->display('submission/complete.tpl');
-
-            // $userInfo = null;
-            // return;
-
-
-            // if (!$userInfo) { //TODO: refacror Error messages
-            //     echo "<p style='color:red;font-size:1.2rem;'>Error obtaining user profile / Помилка при отриманні даних користувача з РІТ НОД</p>";
-            // } else if (strpos($userInfo, "error") !== false) {
-            //     echo "<p style='color:red;font-size:1.2rem;'>Error / Помилка: " . $userInfo . "</p>";
-            //     $userInfo = null;
 
             if (!$userInfo) {
                 self::displayErrorModal($request, __('login.error.title'), __('login.error.description', ['error' => __('login.error.noresponce')]));
@@ -343,23 +298,6 @@ class PKPRitNodHelpers {
 
         // New user
         if ($newUser) {
-
-
-            // $aggrModal = new ConfirmationModal(
-            //     "You need to sign an aggreement!",
-            //     "New User here",
-            //     'modal_information',
-            //     null,
-            //     '',
-            //     false
-            // );
-            // $aggrModal->sho
-
-
-
-
-
-
             $user = Repo::user()->newDataObject();
 
             $user->setUsername($username);
@@ -738,6 +676,103 @@ class PKPRitNodHelpers {
         return $doiCreationFailures;
     }
 
+    public static function aiGetMetadata($submissionId, $filePath)
+    {
+        // The ai service endpoint
+        $rest_url = Config::getVar('ai', 'metadata_url'); //  "http://127.0.0.1:5000/extract-metadata";
+
+        // 1. Build the file URL
+        $absoluteFilePath = Config::getVar('files', 'files_dir') . '/' . $filePath;
+        $fileUrl = "file://" . $absoluteFilePath;
+
+        $payload = [
+            "url" => $fileUrl
+        ];
+
+        // Initialize cURL
+        $ch = curl_init($rest_url);
+
+        // Encode payload as JSON
+        $dataString = json_encode($payload);
+
+        // Set cURL options
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($dataString)
+        ]);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // capture response
+
+        // Execute request and wait until it finishes
+        $response = curl_exec($ch);
+
+        curl_close($ch);
+
+        // Handle errors
+        if ($response === false) {
+            return false;
+        }
+        
+        // Decode JSON response into PHP object
+        $response_data = json_decode($response, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return false;
+        }
+
+        // $filePath = /*"/home/nasopensidev/infa_science/"*/ Config::getVar('ai', 'metadata_dir') . '/' . $response_data->File;
+
+        // $metadataContent = file_get_contents($filePath);
+        // unlink($filePath);
+
+        //DEBUG!!!
+        /*
+        $metadataContent = '{
+            "English": {
+                "dc.contributor.authors": [
+                    "Serhiy Harahulia"
+                ],
+                "dc.description.abstract": "The state of implementation of one of the objects of the open science infrastructure - the Repository of Open Texts of the National Academy of Sciences of Ukraine - is analyzed. The experience of functioning of library systems of scientific information in the context of the formation of research infrastructure is generalized.",
+                "dc.subject": "academic periodicals, Library Portal of the National Academy of Sciences of Ukraine, open science, research infrastructure, institutional repositories, scientific portfolios",
+                "dc.title": "Implementation of Open Science Infrastructure in the National Academy of Sciences of Ukraine: Repository of Academic Periodicals"
+            },
+            "Ukrainian": {
+                "dc.contributor.authors": [
+                    "Сергій Гарагуля"
+                ],
+                "dc.description.abstract": "Проаналізовано стан впровадження одного з об’єктів інфраструктури відкритої науки – Репозитарію відкритих текстів НАН України. Узагальнено досвід функціонування бібліотечних систем наукової інформації в контексті формування дослідницької інфраструктури.",
+                "dc.subject": "академічна періодика, Бібліотечний портал НАН України, відкрита наука, дослідницька інфраструктура, інституційні репозитарії, наукові портфоліо",
+                "dc.title": "Упровадження інфраструктури відкритої науки в НАН України: репозитарій академічної періодики"
+            }
+        }';
+*/
+        $metadata = $response_data['info']; // json_decode($metadataContent, true);
+
+        if (/*json_last_error() !== JSON_ERROR_NONE || */ empty($metadata) ) {
+            return false;
+        }
+
+        $publication = Repo::publication()->get((int)$submissionId);
+
+        $newData = [
+            'title' => [
+                'en' => $metadata['English']['dc.title'],
+                'uk' => $metadata['Ukrainian']['dc.title']
+            ],
+            'abstract' => [
+                'en' => $metadata['English']['dc.description.abstract'],
+                'uk' => $metadata['Ukrainian']['dc.description.abstract']
+            ],
+            'keywords' => [
+                'en' => array_map('trim', explode(',', $metadata['English']['dc.subject'])),
+                'uk' => array_map('trim', explode(',', $metadata['Ukrainian']['dc.subject']))
+            ]
+        ];
+
+        Repo::publication()->edit($publication, $newData);
+        return true;
+    }
 }
 
 if (!PKP_STRICT_MODE) {

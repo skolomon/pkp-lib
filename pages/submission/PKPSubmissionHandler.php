@@ -305,8 +305,9 @@ abstract class PKPSubmissionHandler extends Handler
         $controlledVocabUrl = $this->getControlledVocabBaseUrl($request);
 
         $steps = [];
+        $steps[] = $this->getFilesStep($request, $submission, $publication, $locales, $publicationApiUrl); //Sasz AI
         $steps[] = $this->getDetailsStep($request, $submission, $publication, $locales, $publicationApiUrl, $sections, $controlledVocabUrl);
-        $steps[] = $this->getFilesStep($request, $submission, $publication, $locales, $publicationApiUrl);
+        // $steps[] = $this->getFilesStep($request, $submission, $publication, $locales, $publicationApiUrl); //Sasz AI (reorder)
         $steps[] = $this->getContributorsStep($request, $submission, $publication, $locales, $publicationApiUrl);
         $steps[] = $this->getEditorsStep($request, $submission, $publication, $locales, $publicationApiUrl, $categories);
         $steps[] = $this->getConfirmStep($request, $submission, $publication, $locales, $publicationApiUrl);

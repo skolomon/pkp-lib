@@ -40,7 +40,12 @@
 	&.is_visible {
 		visibility: visible;
 		opacity: 1;
+		//Sasz: failed attempt to prevent closing modal by clicking outside (ruins online help)
+		// pointer-events: none;
 	}
+	// &.is_visible * {
+	// 	pointer-events: auto;
+	// }
 }
 
 // Modal

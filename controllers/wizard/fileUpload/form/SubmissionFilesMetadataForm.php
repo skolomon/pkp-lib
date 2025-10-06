@@ -23,6 +23,7 @@ use PKP\form\Form;
 use PKP\submission\GenreDAO;
 use PKP\submission\reviewRound\ReviewRound;
 use PKP\submissionFile\SubmissionFile;
+use PKP\config\Config;
 
 class SubmissionFilesMetadataForm extends Form
 {
@@ -132,6 +133,15 @@ class SubmissionFilesMetadataForm extends Form
         return ['name'];
     }
 
+    public function getSkipAI()
+    {
+        return $this->getData('skipAI');
+    }
+
+    public function disableSkipAI()
+    {
+        return $this->setData('disableSkipAI', 1);
+    }
     /**
      * @copydoc Form::readInputData()
      */
@@ -141,6 +151,7 @@ class SubmissionFilesMetadataForm extends Form
             'artworkCaption', 'artworkCredit', 'artworkCopyrightOwner',
             'artworkCopyrightOwnerContact', 'artworkPermissionTerms',
             'creator', 'subject', 'description', 'publisher', 'sponsor', 'source', 'language', 'dateCreated',
+            "skipAI"
         ]);
     }
 
@@ -163,7 +174,8 @@ class SubmissionFilesMetadataForm extends Form
             'reviewRoundId' => $reviewRound ? $reviewRound->getId() : null,
             'supportsDependentFiles' => Repo::submissionFile()->supportsDependentFiles($this->getSubmissionFile()),
             'genre' => $genre,
-        ]);
+            'aiMetadata' => Config::getVar('ai', 'get_metadata'),
+        ]); 
         return parent::fetch($request, $template, $display);
     }
 

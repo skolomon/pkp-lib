@@ -36,6 +36,9 @@ use PKP\security\Role;
 use PKP\stageAssignment\StageAssignmentDAO;
 use PKP\submissionFile\SubmissionFile;
 
+use PKP\config\Config;
+use PKP\ritNod\PKPRitNodHelpers;
+
 abstract class PKPManageFileApiHandler extends Handler
 {
     /**
@@ -250,6 +253,14 @@ abstract class PKPManageFileApiHandler extends Handler
 
             // Inform SearchIndex of changes
             event(new MetadataChanged($submission));
+
+            //Sasz AI Call Ivan's AI service to get the metadata
+            if (Config::getVar('ai', 'get_metadata') 
+                && $submissionFile->getData('genreId') == 1
+                && !($form->getSkipAI())) {
+
+                PKPRitNodHelpers::aiGetMetadata($submission->getId(), $submissionFile->getData('path'));
+            }
 
             return \PKP\db\DAO::getDataChangedEvent();
         } else {

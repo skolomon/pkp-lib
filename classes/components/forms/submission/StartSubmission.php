@@ -47,7 +47,7 @@ class StartSubmission extends FormComponent
 
         $this->addIntroduction($context);
         $this->addLanguage($context);
-        $this->addTitle();
+        // $this->addTitle(); //Sasz AI
         $this->addSubmissionChecklist($context);
         $this->addUserGroups($userGroups);
         $this->addPrivacyConsent($context);

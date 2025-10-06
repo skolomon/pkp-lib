@@ -166,3 +166,14 @@ msgstr "<p>Search is performed by <i>titles, keywords, authors, affiliations, ab
 "publication date range</i> (if specified).</p>"
 "<p><b>Note!</b> When searching in Ukrainian, use the correct word forms and cases. See details in the "
 "<a href='https://arxiv.nas.gov.ua/public/manuals/reader.pdf' target='_blank'>Guide for reader</a>.</p>"
+
+msgid "ai.processing"
+msgstr "AI Processing"
+
+msgid "ai.processing.description"
+msgstr "<p>The text of your publication will be processed using AI to retrieve its metadata (title, keywords, abstract).</p>"
+"<p>You can review and change them if necessary in the later steps of the Submission Wizard.</p>"
+"<p><small>* Note. AI processing may take up to 30 seconds.</small></p>"
+
+msgid "ai.processing.skip"
+msgstr " I don't want to use AI. I'll enter all the metadata manually."

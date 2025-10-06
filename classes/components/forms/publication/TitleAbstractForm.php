@@ -57,11 +57,29 @@ class TitleAbstractForm extends FormComponent
             'isMultilingual' => true,
             'value' => $publication->getData('prefix'),
         ]))
+        //Sasz: failed attempt to wrap text in Title edit field. Too many issues...
+            // ->addField(new FieldRichTextarea('title', [
+            //     'label' => __('common.title'),
+            //     'isMultilingual' => true,
+            //     'isRequired' => true,
+            //     'size' => 'small',
+            //     'value' => $publication->getData('title'),
+            //     'init' => [
+            //         'forced_root_block' => false,
+            //         'enter_br' => false,
+            //     ],
+            // ]))
             ->addField(new FieldRichText('title', [
                 'label' => __('common.title'),
                 'isMultilingual' => true,
                 'isRequired' => true,
                 'value' => $publication->getData('title'),
+                //     'plugins' => '',
+                // 'init' => [
+                //     'height' => 120,                                  // pixels, makes editor taller
+                //     'content_style' => '.mce-content-body{white-space:normal;word-wrap:break-word;line-height:inherit;}'
+                //     // 'content_style' => '.mce-content-body{verflow-x: auto;}' /* or scroll */
+                // ],
             ]))
             ->addField(new FieldRichText('subtitle', [
                 'label' => __('common.subtitle'),
