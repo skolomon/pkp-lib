@@ -721,35 +721,9 @@ class PKPRitNodHelpers {
             return false;
         }
 
-        // $filePath = /*"/home/nasopensidev/infa_science/"*/ Config::getVar('ai', 'metadata_dir') . '/' . $response_data->File;
+        $metadata = $response_data['info'];
 
-        // $metadataContent = file_get_contents($filePath);
-        // unlink($filePath);
-
-        //DEBUG!!!
-        /*
-        $metadataContent = '{
-            "English": {
-                "dc.contributor.authors": [
-                    "Serhiy Harahulia"
-                ],
-                "dc.description.abstract": "The state of implementation of one of the objects of the open science infrastructure - the Repository of Open Texts of the National Academy of Sciences of Ukraine - is analyzed. The experience of functioning of library systems of scientific information in the context of the formation of research infrastructure is generalized.",
-                "dc.subject": "academic periodicals, Library Portal of the National Academy of Sciences of Ukraine, open science, research infrastructure, institutional repositories, scientific portfolios",
-                "dc.title": "Implementation of Open Science Infrastructure in the National Academy of Sciences of Ukraine: Repository of Academic Periodicals"
-            },
-            "Ukrainian": {
-                "dc.contributor.authors": [
-                    "Сергій Гарагуля"
-                ],
-                "dc.description.abstract": "Проаналізовано стан впровадження одного з об’єктів інфраструктури відкритої науки – Репозитарію відкритих текстів НАН України. Узагальнено досвід функціонування бібліотечних систем наукової інформації в контексті формування дослідницької інфраструктури.",
-                "dc.subject": "академічна періодика, Бібліотечний портал НАН України, відкрита наука, дослідницька інфраструктура, інституційні репозитарії, наукові портфоліо",
-                "dc.title": "Упровадження інфраструктури відкритої науки в НАН України: репозитарій академічної періодики"
-            }
-        }';
-*/
-        $metadata = $response_data['info']; // json_decode($metadataContent, true);
-
-        if (/*json_last_error() !== JSON_ERROR_NONE || */ empty($metadata) ) {
+        if (empty($metadata) ) {
             return false;
         }
 
