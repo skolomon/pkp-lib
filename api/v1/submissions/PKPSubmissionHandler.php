@@ -1724,6 +1724,9 @@ class PKPSubmissionHandler extends APIHandler
         //     );
         // curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
+        $orcidCode = $params['orcid'];
+        $orcidCode = basename(parse_url($orcidCode, PHP_URL_PATH));
+
         $body = [
             'token' => $profileId,
             'imya_ua' => $params['givenName']['uk'],
@@ -1733,7 +1736,7 @@ class PKPSubmissionHandler extends APIHandler
             'pobatkovi_ua' => $params['poBatkovi']['uk'],
             'pobatkovi_en' => $params['poBatkovi']['en'],
             'email' => $params['email'],
-            'ORCID' => $params['orcid'],
+            'ORCID' => $orcidCode,
             'full_name_inst' => $params['affiliation']['uk'],
             'full_name_inst_en' => $params['affiliation']['en']
         ];
