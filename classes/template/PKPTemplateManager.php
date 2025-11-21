@@ -2502,8 +2502,10 @@ class PKPTemplateManager extends Smarty
         }
 
         $months = [];
+        //skolomon: use localized month names
+        $monthLabels = explode(' ', __('plugins.themes.default.displayStats.monthInitials'));
         for ($i = 1; $i <= 12; $i++) {
-            $months[$i] = date('M', strtotime('2020-' . $i . '-01'));
+            $months[$i] = $monthLabels[$i - 1]; // date('M', strtotime('2020-' . $i . '-01'));
         }
 
         $days = [];
