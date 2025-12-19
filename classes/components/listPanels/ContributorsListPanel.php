@@ -80,6 +80,7 @@ class ContributorsListPanel extends ListPanel
                 'i18nAbbreviated' => __('contributor.listPanel.preview.abbreviated'),
                 'i18nPublicationLists' => __('contributor.listPanel.preview.publicationLists'),
                 'i18nFull' => __('contributor.listPanel.preview.full'),
+                'i18nWarning' => __('author.users.contributor.warning'),
             ]
         );
 

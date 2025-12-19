@@ -1750,9 +1750,27 @@ class PKPSubmissionHandler extends APIHandler
             return $response->withStatus(403)->withJsonError('api.403.requsetError');
         }
 
+        $is_academic = true;
         $userProf = json_decode($responsePOST);
         if (isset($userProf->Key)) {
-            return $response->withStatus(403)->withJsonError('api.403.coAuthorNotFound', ['error' => $userProf->Value]);
+            // return $response->withStatus(403)->withJsonError('api.403.coAuthorNotFound', ['error' => $userProf->Value]);
+            //academic profile not found. Try looking for a co-author
+            curl_setopt($curl, CURLOPT_URL, 'https://opensi.nas.gov.ua/all/FindCoauthors');
+            $responsePOST = curl_exec($curl);
+            curl_close($curl);
+
+            if (!$responsePOST) {
+                // return $response->withStatus(403)->withJsonError('api.403.requsetError');
+                return $response->withStatus(403)->withJsonError('api.403.coAuthorNotFound', ['error' => __('api.403.requsetErrorOrCoAuthorNotFound')]);
+            }
+
+            $userProf = json_decode($responsePOST);
+            if (is_array($userProf) && !empty($userProf)) {
+                $userProf = $userProf[0];
+                $is_academic = false;
+            } else {
+                return $response->withStatus(403)->withJsonError('api.403.requsetError');
+            }
         }
 
         // ~RIT NOD
@@ -1760,7 +1778,7 @@ class PKPSubmissionHandler extends APIHandler
         //checkUserProfile (from ritNod.php)
         {
             $errors = '';
-            $checkPoints = ['imya_ua', 'prizvische_ua', 'imya_en', 'prizvische_en', 'agreement_publ']; //'ORCID'?
+            $checkPoints = ['imya_ua', 'prizvische_ua', 'imya_en', 'prizvische_en' /*, , 'agreement_publ'*/]; //'ORCID'?
             foreach ($checkPoints as $point) {
                 if (!isset($userProf->$point) || !$userProf->$point) {
                     $errors .= '<li>' . __('profile.error.' . $point) . '</li>';
@@ -1777,7 +1795,7 @@ class PKPSubmissionHandler extends APIHandler
             }
         }
 
-        $username = explode('@', $userProf->email)[0];
+        $username = $is_academic ? explode('@', $userProf->email)[0] : $userProf->email; //for non-academic co-authors, take the whole email as username
 
         $user = Repo::user()->getByUsername($username, true);
 
@@ -1803,15 +1821,71 @@ class PKPSubmissionHandler extends APIHandler
         $user->setFamilyName($userProf->prizvische_en, "en");
         $user->setData("poBatkovi", $userProf->pobatkovi_ua, "uk");
         $user->setData("poBatkovi", $userProf->pobatkovi_en, "en");
-        $user->setAffiliation($userProf->full_name_inst, "uk");
-        $user->setAffiliation($userProf->full_name_inst_en, "en");
 
-        $orcid = $userProf->ORCID;
+        $orcid = $is_academic ? $userProf->ORCID : $userProf->orcid;
         if ($orcid && !str_contains(strtolower($orcid), 'orcid.org')) {
             $orcid = 'https://orcid.org/' . $orcid;
         }
         $user->setOrcid($orcid);
         $user->setCountry($params['country']);
+
+        $institution_ua = $is_academic ? $userProf->full_name_inst : $userProf->org_name_ukr;
+        $institution_en = $is_academic ? $userProf->full_name_inst_en : $userProf->org_name_en;
+
+        if (!$is_academic && !$institution_ua || !$institution_en) {
+            $orcidCode = basename(parse_url($orcid, PHP_URL_PATH));
+            $orcidCode = "0009-0003-2542-8388";
+            $url = "https://pub.orcid.org/v3.0/" . $orcidCode . "/record";
+
+            $curl = curl_init($url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, [
+                "Accept: application/json"
+            ]);
+
+            $responseOrcid = curl_exec($curl);
+            curl_close($curl);
+
+            $data = json_decode($responseOrcid, true);
+
+            // Navigate to employment institution name
+            if (isset($data['activities-summary']['employments']['affiliation-group'][0]['summaries'][0]['employment-summary']['organization']['name'])) {
+                $institution_en = $data['activities-summary']['employments']['affiliation-group'][0]['summaries'][0]['employment-summary']['organization']['name'];
+                $institution_ua = $institution_en;
+            }
+
+            if (isset($data['activities-summary']['employments']['affiliation-group'][0]['summaries'][0]['employment-summary']['organization']['disambiguated-organization']) && $data['activities-summary']['employments']['affiliation-group'][0]['summaries'][0]['employment-summary']['organization']['disambiguated-organization']['disambiguation-source'] == "ROR") {
+
+                $ROR_code = $data['activities-summary']['employments']['affiliation-group'][0]['summaries'][0]['employment-summary']['organization']['disambiguated-organization']['disambiguated-organization-identifier'];
+                $ROR_code = basename(parse_url($ROR_code, PHP_URL_PATH));
+
+                $url = "https://api.ror.org/organizations/" . $ROR_code;
+
+                $curl = curl_init($url);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($curl, CURLOPT_HTTPHEADER, [
+                    "Accept: application/json"
+                ]);
+
+                $responseROR = curl_exec($curl);
+                curl_close($curl);
+
+                $data = json_decode($responseROR, true);
+
+                if (isset($data['names'])) {
+                    foreach ($data['names'] as $entry) {
+                        if (isset($entry['lang']) && $entry['lang'] === 'en') {
+                            $institution_en = $entry['value'];
+                        }
+                        if (isset($entry['lang']) && $entry['lang'] === 'uk') {
+                            $institution_ua = $entry['value'];
+                        }
+                    }
+                }
+            }
+        }
+        $user->setAffiliation($institution_ua, "uk");
+        $user->setAffiliation($institution_en, "en");
 
         $user->setPassword(Validation::encryptCredentials($username, $username . 'pass'));
         $user->setMustChangePassword(0);

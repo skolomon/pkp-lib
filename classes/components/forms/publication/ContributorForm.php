@@ -96,12 +96,13 @@ class ContributorForm extends FormComponent
                 'label' => __('user.poBatkovi'),
                 'isMultilingual' => true,
             ]))
-
-            ->addField(new FieldText('preferredPublicName', [
-                'label' => __('user.preferredPublicName'),
-                'description' => __('user.preferredPublicName.description'),
-                'isMultilingual' => true,
-            ]))
+            
+            //skolomon: don't use this field
+            // ->addField(new FieldText('preferredPublicName', [
+            //     'label' => __('user.preferredPublicName'),
+            //     'description' => __('user.preferredPublicName.description'),
+            //     'isMultilingual' => true,
+            // ]))
             ->addField(new FieldText('email', [
                 'label' => __('user.academicemail'),
                 // 'isRequired' => true,
