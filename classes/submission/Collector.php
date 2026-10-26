@@ -75,6 +75,10 @@ abstract class Collector implements CollectorInterface
     public $assignedTo = null;
     public array|int|null $isReviewedBy = null;
 
+    /** @var string[]|null Author affiliation names to match (RIT NOD organization pages) */
+    public ?array $authorAffiliations = null;
+    public string $authorAffiliationLocale = 'en';
+
     public function __construct(DAO $dao)
     {
         $this->dao = $dao;
@@ -225,6 +229,22 @@ abstract class Collector implements CollectorInterface
     {
         $this->searchPhrase = $phrase;
         $this->maxSearchKeywords = $maxSearchKeywords;
+        return $this;
+    }
+
+    /**
+     * Limit results to submissions whose current publication has at least one
+     * author with one of these affiliations (author_settings.setting_name = 'affiliation').
+     *
+     * Matching ignores case, surrounding spaces and tabs/line breaks.
+     *
+     * @param string[]|null $names Affiliation names; null removes the filter
+     * @param string $locale Locale of the affiliation setting to compare
+     */
+    public function filterByAuthorAffiliations(?array $names, string $locale = 'en'): AppCollector
+    {
+        $this->authorAffiliations = $names;
+        $this->authorAffiliationLocale = $locale;
         return $this;
     }
 
@@ -519,6 +539,31 @@ abstract class Collector implements CollectorInterface
         if (isset($this->categoryIds)) {
             $q->join('publication_categories as pc', 's.current_publication_id', '=', 'pc.publication_id')
                 ->whereIn('pc.category_id', $this->categoryIds);
+        }
+
+        // Filter by author affiliation (current publication's authors)
+        if (isset($this->authorAffiliations)) {
+            $names = collect($this->authorAffiliations)
+                ->map(fn ($name) => mb_strtolower(trim(str_replace(["\t", "\r", "\n"], ' ', (string) $name), ' ')))
+                ->filter(fn (string $name) => $name !== '')
+                ->unique()
+                ->values();
+
+            if ($names->isEmpty()) {
+                $q->whereRaw('1 = 0');
+            } else {
+                $placeholders = implode(', ', array_fill(0, $names->count(), '?'));
+                $q->whereIn('s.current_publication_id', fn (Builder $sub) => $sub
+                    ->select('au_aff.publication_id')
+                    ->from('authors AS au_aff')
+                    ->join('author_settings AS aus_aff', 'aus_aff.author_id', '=', 'au_aff.author_id')
+                    ->where('aus_aff.setting_name', '=', 'affiliation')
+                    ->where('aus_aff.locale', '=', $this->authorAffiliationLocale)
+                    ->whereRaw(
+                        "LOWER(TRIM(REPLACE(REPLACE(REPLACE(aus_aff.setting_value, ?, ' '), ?, ' '), ?, ' '))) IN ({$placeholders})",
+                        array_merge(["\t", "\r", "\n"], $names->all())
+                    ));
+            }
         }
 
         // Filter by is reviewed by
